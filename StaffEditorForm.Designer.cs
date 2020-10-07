@@ -60,6 +60,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Name = "StaffEditorForm";
             this.Text = "StaffEditorForm";
+            this.Load += new System.EventHandler(this.StaffEditorForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
