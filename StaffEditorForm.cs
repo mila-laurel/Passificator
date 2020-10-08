@@ -25,7 +25,7 @@ namespace Passificator
 
         private void UpdateData()
         {
-            //dataGridView1.DataSource = GetStaffDataTable();
+            dataGridView1.DataSource = GetStaffDataTable();
             using (var context = new DatabaseContext())
             {
                 var administrators = from a in context.Administrators
