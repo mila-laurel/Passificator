@@ -1,54 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using Passificator.Data;
 using Passificator.Model;
+using Passificator.Utilities.Collections;
 
 namespace Passificator
 {
-    internal class TrackList<T> : BindingList<T>
-    {
-        public enum ChangeType
-        {
-            Added,
-            Removed
-        }
-
-        public class ChangedItem
-        {
-            public ChangeType ChangeType { get; set; }
-            public T Item { get; }
-
-            public ChangedItem(T item, ChangeType changeType)
-            {
-                ChangeType = changeType;
-                Item = item;
-            }
-        }
-
-        public List<ChangedItem> Changes { get; } = new List<ChangedItem>();
-
-        public void ClearChanges() => Changes.Clear();
-
-        protected override void RemoveItem(int index)
-        {
-            var previousChange = Changes.FirstOrDefault(x => x.Item.Equals(this[index]));
-            if (previousChange != null)
-                previousChange.ChangeType = ChangeType.Removed;
-            else
-                Changes.Add(new ChangedItem(this[index], ChangeType.Removed));
-
-            base.RemoveItem(index);
-        }
-
-        protected override void OnAddingNew(AddingNewEventArgs e)
-        {
-            Changes.Add(new ChangedItem((T) e.NewObject, ChangeType.Added));
-            base.OnAddingNew(e);
-        }
-    }
     public partial class StaffEditorForm : Form
     {
         private TrackList<StaffViewModel> people = new TrackList<StaffViewModel>();
@@ -70,7 +28,7 @@ namespace Passificator
             using (var context = new DatabaseContext())
             {
                 var idToDelete = people.Changes
-                    .Where(c => c.ChangeType == TrackList<StaffViewModel>.ChangeType.Removed)
+                    .Where(c => c.ChangeType == ChangeType.Removed)
                     .Where(c => c.Item.Id > 0)
                     .Select(c => c.Item.Id);
                 var entitiesToRemove = context.Administrators
@@ -85,10 +43,26 @@ namespace Passificator
             using (var context = new DatabaseContext())
             {
                 var newEntities = people.Changes
-                    .Where(c => c.ChangeType == TrackList<StaffViewModel>.ChangeType.Added)
+                    .Where(c => c.ChangeType == ChangeType.Added)
                     .Select(c => new Staff() {Name = c.Item.Name, Position = c.Item.Position});
 
                 context.Administrators.AddRange(newEntities);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DatabaseContext())
+            {
+                var changedEntities = people
+                    .Where(x => x.IsDirty() && x.Id > 0)
+                    .ToList();
+
+                foreach (var c in changedEntities)
+                {
+                    var entity = context.Administrators.Find(c.Id);
+                    entity.Name = c.Name;
+                    entity.Position = c.Position;
+                }
 
                 context.SaveChanges();
             }

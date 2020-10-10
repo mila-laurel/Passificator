@@ -20,7 +20,24 @@ namespace Passificator
         private void addGuestButton_Click(object sender, EventArgs e)
         {
             var editorForm = new StaffEditorForm();
+            
             editorForm.ShowDialog(this);
+        }
+
+        private void oneDayVisitRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (oneDayVisitRadioButton.Checked)
+            {
+                visitDatePicker.Enabled = true;
+                visitDateFromPicker.Enabled = false;
+                visitDateToPicker.Enabled = false;
+            }
+            else
+            {
+                visitDatePicker.Enabled = false;
+                visitDateFromPicker.Enabled = true;
+                visitDateToPicker.Enabled = true;
+            }
         }
     }
 }

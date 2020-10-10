@@ -83,6 +83,7 @@
     <Compile Include="StaffEditorForm.Designer.cs">
       <DependentUpon>StaffEditorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\Collections\TrackList.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

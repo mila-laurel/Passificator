@@ -29,26 +29,26 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.editStaffButton = new System.Windows.Forms.Button();
+            this.senderPositionTextBox = new System.Windows.Forms.TextBox();
+            this.addresseePositionTextBox = new System.Windows.Forms.TextBox();
+            this.senderNameComboBox = new System.Windows.Forms.ComboBox();
             this.addresseeNameComboBox = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.visitDatePicker = new System.Windows.Forms.DateTimePicker();
-            this.addresseePositionTextBox = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.senderPositionTextBox = new System.Windows.Forms.TextBox();
-            this.senderNameComboBox = new System.Windows.Forms.ComboBox();
-            this.oneDayVisitRadioButton = new System.Windows.Forms.RadioButton();
             this.multiplyDaysVisitRadioButton = new System.Windows.Forms.RadioButton();
-            this.visitDateFromPicker = new System.Windows.Forms.DateTimePicker();
+            this.oneDayVisitRadioButton = new System.Windows.Forms.RadioButton();
             this.visitDateToPicker = new System.Windows.Forms.DateTimePicker();
+            this.visitDateFromPicker = new System.Windows.Forms.DateTimePicker();
+            this.visitDatePicker = new System.Windows.Forms.DateTimePicker();
             this.guestsDataGrid = new System.Windows.Forms.DataGridView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.guestNameComboBox = new System.Windows.Forms.ComboBox();
             this.addGuestButton = new System.Windows.Forms.Button();
+            this.guestNameComboBox = new System.Windows.Forms.ComboBox();
             this.generateButton = new System.Windows.Forms.Button();
-            this.editStaffButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.guestsDataGrid)).BeginInit();
@@ -73,6 +73,39 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Note";
             // 
+            // editStaffButton
+            // 
+            this.editStaffButton.Location = new System.Drawing.Point(10, 80);
+            this.editStaffButton.Name = "editStaffButton";
+            this.editStaffButton.Size = new System.Drawing.Size(33, 23);
+            this.editStaffButton.TabIndex = 4;
+            this.editStaffButton.Text = "+";
+            this.editStaffButton.UseVisualStyleBackColor = true;
+            this.editStaffButton.Click += new System.EventHandler(this.addGuestButton_Click);
+            // 
+            // senderPositionTextBox
+            // 
+            this.senderPositionTextBox.Location = new System.Drawing.Point(264, 51);
+            this.senderPositionTextBox.Name = "senderPositionTextBox";
+            this.senderPositionTextBox.Size = new System.Drawing.Size(279, 20);
+            this.senderPositionTextBox.TabIndex = 3;
+            // 
+            // addresseePositionTextBox
+            // 
+            this.addresseePositionTextBox.Location = new System.Drawing.Point(264, 25);
+            this.addresseePositionTextBox.Name = "addresseePositionTextBox";
+            this.addresseePositionTextBox.Size = new System.Drawing.Size(279, 20);
+            this.addresseePositionTextBox.TabIndex = 3;
+            // 
+            // senderNameComboBox
+            // 
+            this.senderNameComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.senderNameComboBox.FormattingEnabled = true;
+            this.senderNameComboBox.Location = new System.Drawing.Point(66, 51);
+            this.senderNameComboBox.Name = "senderNameComboBox";
+            this.senderNameComboBox.Size = new System.Drawing.Size(121, 21);
+            this.senderNameComboBox.TabIndex = 1;
+            // 
             // addresseeNameComboBox
             // 
             this.addresseeNameComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -81,6 +114,24 @@
             this.addresseeNameComboBox.Name = "addresseeNameComboBox";
             this.addresseeNameComboBox.Size = new System.Drawing.Size(121, 21);
             this.addresseeNameComboBox.TabIndex = 1;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(193, 53);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(65, 13);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Должность";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(193, 25);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(65, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Должность";
             // 
             // label2
             // 
@@ -113,53 +164,15 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Visit";
             // 
-            // visitDatePicker
+            // multiplyDaysVisitRadioButton
             // 
-            this.visitDatePicker.Location = new System.Drawing.Point(97, 26);
-            this.visitDatePicker.Name = "visitDatePicker";
-            this.visitDatePicker.Size = new System.Drawing.Size(136, 20);
-            this.visitDatePicker.TabIndex = 0;
-            // 
-            // addresseePositionTextBox
-            // 
-            this.addresseePositionTextBox.Location = new System.Drawing.Point(264, 25);
-            this.addresseePositionTextBox.Name = "addresseePositionTextBox";
-            this.addresseePositionTextBox.Size = new System.Drawing.Size(279, 20);
-            this.addresseePositionTextBox.TabIndex = 3;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(193, 25);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(65, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Должность";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(193, 53);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(65, 13);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Должность";
-            // 
-            // senderPositionTextBox
-            // 
-            this.senderPositionTextBox.Location = new System.Drawing.Point(264, 51);
-            this.senderPositionTextBox.Name = "senderPositionTextBox";
-            this.senderPositionTextBox.Size = new System.Drawing.Size(279, 20);
-            this.senderPositionTextBox.TabIndex = 3;
-            // 
-            // senderNameComboBox
-            // 
-            this.senderNameComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.senderNameComboBox.FormattingEnabled = true;
-            this.senderNameComboBox.Location = new System.Drawing.Point(66, 51);
-            this.senderNameComboBox.Name = "senderNameComboBox";
-            this.senderNameComboBox.Size = new System.Drawing.Size(121, 21);
-            this.senderNameComboBox.TabIndex = 1;
+            this.multiplyDaysVisitRadioButton.AutoSize = true;
+            this.multiplyDaysVisitRadioButton.Location = new System.Drawing.Point(13, 68);
+            this.multiplyDaysVisitRadioButton.Name = "multiplyDaysVisitRadioButton";
+            this.multiplyDaysVisitRadioButton.Size = new System.Drawing.Size(56, 17);
+            this.multiplyDaysVisitRadioButton.TabIndex = 2;
+            this.multiplyDaysVisitRadioButton.Text = "От До";
+            this.multiplyDaysVisitRadioButton.UseVisualStyleBackColor = true;
             // 
             // oneDayVisitRadioButton
             // 
@@ -172,16 +185,15 @@
             this.oneDayVisitRadioButton.TabStop = true;
             this.oneDayVisitRadioButton.Text = "Один день";
             this.oneDayVisitRadioButton.UseVisualStyleBackColor = true;
+            this.oneDayVisitRadioButton.CheckedChanged += new System.EventHandler(this.oneDayVisitRadioButton_CheckedChanged);
             // 
-            // multiplyDaysVisitRadioButton
+            // visitDateToPicker
             // 
-            this.multiplyDaysVisitRadioButton.AutoSize = true;
-            this.multiplyDaysVisitRadioButton.Location = new System.Drawing.Point(13, 68);
-            this.multiplyDaysVisitRadioButton.Name = "multiplyDaysVisitRadioButton";
-            this.multiplyDaysVisitRadioButton.Size = new System.Drawing.Size(56, 17);
-            this.multiplyDaysVisitRadioButton.TabIndex = 2;
-            this.multiplyDaysVisitRadioButton.Text = "От До";
-            this.multiplyDaysVisitRadioButton.UseVisualStyleBackColor = true;
+            this.visitDateToPicker.Enabled = false;
+            this.visitDateToPicker.Location = new System.Drawing.Point(264, 65);
+            this.visitDateToPicker.Name = "visitDateToPicker";
+            this.visitDateToPicker.Size = new System.Drawing.Size(136, 20);
+            this.visitDateToPicker.TabIndex = 0;
             // 
             // visitDateFromPicker
             // 
@@ -191,13 +203,12 @@
             this.visitDateFromPicker.Size = new System.Drawing.Size(136, 20);
             this.visitDateFromPicker.TabIndex = 0;
             // 
-            // visitDateToPicker
+            // visitDatePicker
             // 
-            this.visitDateToPicker.Enabled = false;
-            this.visitDateToPicker.Location = new System.Drawing.Point(264, 65);
-            this.visitDateToPicker.Name = "visitDateToPicker";
-            this.visitDateToPicker.Size = new System.Drawing.Size(136, 20);
-            this.visitDateToPicker.TabIndex = 0;
+            this.visitDatePicker.Location = new System.Drawing.Point(97, 26);
+            this.visitDatePicker.Name = "visitDatePicker";
+            this.visitDatePicker.Size = new System.Drawing.Size(136, 20);
+            this.visitDatePicker.TabIndex = 0;
             // 
             // guestsDataGrid
             // 
@@ -219,14 +230,6 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Гости";
             // 
-            // guestNameComboBox
-            // 
-            this.guestNameComboBox.FormattingEnabled = true;
-            this.guestNameComboBox.Location = new System.Drawing.Point(6, 19);
-            this.guestNameComboBox.Name = "guestNameComboBox";
-            this.guestNameComboBox.Size = new System.Drawing.Size(445, 21);
-            this.guestNameComboBox.TabIndex = 1;
-            // 
             // addGuestButton
             // 
             this.addGuestButton.Location = new System.Drawing.Point(458, 19);
@@ -237,6 +240,14 @@
             this.addGuestButton.UseVisualStyleBackColor = true;
             this.addGuestButton.Click += new System.EventHandler(this.addGuestButton_Click);
             // 
+            // guestNameComboBox
+            // 
+            this.guestNameComboBox.FormattingEnabled = true;
+            this.guestNameComboBox.Location = new System.Drawing.Point(6, 19);
+            this.guestNameComboBox.Name = "guestNameComboBox";
+            this.guestNameComboBox.Size = new System.Drawing.Size(445, 21);
+            this.guestNameComboBox.TabIndex = 1;
+            // 
             // generateButton
             // 
             this.generateButton.Location = new System.Drawing.Point(12, 588);
@@ -245,16 +256,6 @@
             this.generateButton.TabIndex = 5;
             this.generateButton.Text = "Генерировать";
             this.generateButton.UseVisualStyleBackColor = true;
-            // 
-            // editStaffButton
-            // 
-            this.editStaffButton.Location = new System.Drawing.Point(10, 80);
-            this.editStaffButton.Name = "editStaffButton";
-            this.editStaffButton.Size = new System.Drawing.Size(33, 23);
-            this.editStaffButton.TabIndex = 4;
-            this.editStaffButton.Text = "+";
-            this.editStaffButton.UseVisualStyleBackColor = true;
-            this.editStaffButton.Click += new System.EventHandler(this.addGuestButton_Click);
             // 
             // Form1
             // 
