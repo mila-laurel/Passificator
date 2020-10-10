@@ -1,34 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Passificator.Model;
 
 namespace Passificator.Data
 {
-    class StaffRepository
+    static class StaffRepository
     {
-        public static void Create()
+        public static IEnumerable<Staff> GetStaffList()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Staff Find(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void Create(Staff newStaff)
         {
 
         }
 
-        public static void Delete()
+        public static void Delete(Staff staff)
         {
 
         }
 
-        public static void Update()
+        // deleteRange ???
+        public static void Delete(int id)
         {
 
         }
 
-        public static void GetOne()
-        {
-
-        }
-
-        public static void GetAll()
+        public static void Update(Staff staff)
         {
 
         }

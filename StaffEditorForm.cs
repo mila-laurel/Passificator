@@ -9,12 +9,12 @@ namespace Passificator
 {
     public partial class StaffEditorForm : Form
     {
-        private TrackList<StaffViewModel> people = new TrackList<StaffViewModel>();
+        private readonly TrackList<StaffViewModel> _people = new TrackList<StaffViewModel>();
 
         public StaffEditorForm()
         {
             InitializeComponent();
-            dataGridView1.DataSource = people;
+            dataGridView1.DataSource = _people;
         }
 
         private void saveButton_Click(object sender, EventArgs e)
@@ -27,7 +27,7 @@ namespace Passificator
         {
             using (var context = new DatabaseContext())
             {
-                var idToDelete = people.Changes
+                var idToDelete = _people.Changes
                     .Where(c => c.ChangeType == ChangeType.Removed)
                     .Where(c => c.Item.Id > 0)
                     .Select(c => c.Item.Id);
@@ -42,7 +42,7 @@ namespace Passificator
 
             using (var context = new DatabaseContext())
             {
-                var newEntities = people.Changes
+                var newEntities = _people.Changes
                     .Where(c => c.ChangeType == ChangeType.Added)
                     .Select(c => new Staff() {Name = c.Item.Name, Position = c.Item.Position});
 
@@ -53,7 +53,7 @@ namespace Passificator
 
             using (var context = new DatabaseContext())
             {
-                var changedEntities = people
+                var changedEntities = _people
                     .Where(x => x.IsDirty() && x.Id > 0)
                     .ToList();
 
@@ -67,7 +67,7 @@ namespace Passificator
                 context.SaveChanges();
             }
 
-            people.ClearChanges();
+            _people.ClearChanges();
         }
 
         private void StaffEditorForm_Load(object sender, EventArgs e)
@@ -79,19 +79,19 @@ namespace Passificator
         {
             using (var context = new DatabaseContext())
             {
-                people.Clear();
+                _people.Clear();
                 var administrators = from a in context.Administrators
                                      select new StaffViewModel() { Id = a.Id, Name = a.Name, Position = a.Position };
 
                 foreach (var administrator in administrators.ToList())
                 {
                     administrator.ResetDirty();
-                    people.Add(administrator);
+                    _people.Add(administrator);
                 }
 
                 dataGridView1.Columns[0].Visible = false;
                 dataGridView1.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                people.ClearChanges();
+                _people.ClearChanges();
             }
         }
 
