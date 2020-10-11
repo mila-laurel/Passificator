@@ -105,6 +105,7 @@
             this.senderNameComboBox.Name = "senderNameComboBox";
             this.senderNameComboBox.Size = new System.Drawing.Size(121, 21);
             this.senderNameComboBox.TabIndex = 1;
+            this.senderNameComboBox.SelectedIndexChanged += new System.EventHandler(this.senderNameComboBox_SelectedIndexChanged);
             // 
             // addresseeNameComboBox
             // 
@@ -114,6 +115,7 @@
             this.addresseeNameComboBox.Name = "addresseeNameComboBox";
             this.addresseeNameComboBox.Size = new System.Drawing.Size(121, 21);
             this.addresseeNameComboBox.TabIndex = 1;
+            this.addresseeNameComboBox.SelectedIndexChanged += new System.EventHandler(this.addresseeNameComboBox_SelectedIndexChanged);
             // 
             // label4
             // 

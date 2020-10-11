@@ -25,47 +25,28 @@ namespace Passificator
 
         private void SaveData()
         {
-            using (var context = new DatabaseContext())
-            {
-                var idToDelete = _people.Changes
-                    .Where(c => c.ChangeType == ChangeType.Removed)
-                    .Where(c => c.Item.Id > 0)
-                    .Select(c => c.Item.Id);
-                var entitiesToRemove = context.Administrators
-                    .Where(a => idToDelete.Contains(a.Id))
-                    .ToList();
+            var idToDelete = _people.Changes
+                .Where(c => c.ChangeType == ChangeType.Removed)
+                .Where(c => c.Item.Id > 0)
+                .Select(c => c.Item.Id);
+            foreach (int id in idToDelete)
+                StaffRepository.Delete(id);
 
-                context.Administrators.RemoveRange(entitiesToRemove);
+            var newEntities = _people.Changes
+                .Where(c => c.ChangeType == ChangeType.Added)
+                .Select(c => new Staff() { Name = c.Item.Name, Position = c.Item.Position });
+            foreach (Staff entity in newEntities)
+                StaffRepository.Create(entity);
 
-                context.SaveChanges();
-            }
 
-            using (var context = new DatabaseContext())
-            {
-                var newEntities = _people.Changes
-                    .Where(c => c.ChangeType == ChangeType.Added)
-                    .Select(c => new Staff() {Name = c.Item.Name, Position = c.Item.Position});
-
-                context.Administrators.AddRange(newEntities);
-
-                context.SaveChanges();
-            }
-
-            using (var context = new DatabaseContext())
-            {
-                var changedEntities = _people
+            var changedEntities = _people
                     .Where(x => x.IsDirty() && x.Id > 0)
                     .ToList();
 
                 foreach (var c in changedEntities)
                 {
-                    var entity = context.Administrators.Find(c.Id);
-                    entity.Name = c.Name;
-                    entity.Position = c.Position;
+                StaffRepository.Update(new Staff() { Id = c.Id, Name = c.Name, Position = c.Position });
                 }
-
-                context.SaveChanges();
-            }
 
             _people.ClearChanges();
         }
@@ -77,11 +58,10 @@ namespace Passificator
 
         private void UpdateData()
         {
-            using (var context = new DatabaseContext())
-            {
-                _people.Clear();
-                var administrators = from a in context.Administrators
-                                     select new StaffViewModel() { Id = a.Id, Name = a.Name, Position = a.Position };
+            _people.Clear();
+            
+                var administrators = from a in StaffRepository.GetStaffList()
+                select new StaffViewModel() { Id = a.Id, Name = a.Name, Position = a.Position };
 
                 foreach (var administrator in administrators.ToList())
                 {
@@ -92,7 +72,6 @@ namespace Passificator
                 dataGridView1.Columns[0].Visible = false;
                 dataGridView1.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 _people.ClearChanges();
-            }
         }
 
         private class StaffViewModel
