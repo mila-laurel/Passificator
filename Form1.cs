@@ -41,14 +41,16 @@ namespace Passificator
             }
         }
 
-        public static void FillDropDownList(ComboBox DropDownName)
+        private static void FillDropDownList(ComboBox DropDownName)
         {
-                foreach (var administrator in StaffRepository.GetStaffList())
-                {
-                    DropDownName.Items.Add(administrator);
-                }
-                DropDownName.ValueMember = "Id";
-                DropDownName.DisplayMember = "Name";
+            DropDownName.Items.Clear();
+
+            foreach (var administrator in StaffRepository.GetStaffList())
+            {
+                DropDownName.Items.Add(administrator);
+            }
+            DropDownName.ValueMember = "Id";
+            DropDownName.DisplayMember = "Name";
         }
 
         private void addresseeNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
