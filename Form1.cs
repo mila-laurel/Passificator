@@ -23,6 +23,9 @@ namespace Passificator
             var editorForm = new StaffEditorForm();
 
             editorForm.ShowDialog(this);
+
+            FillDropDownList(addresseeNameComboBox);
+            FillDropDownList(senderNameComboBox);
         }
 
         private void oneDayVisitRadioButton_CheckedChanged(object sender, EventArgs e)
