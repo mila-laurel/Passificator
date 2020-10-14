@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Linq;
 using System.Windows.Forms;
 using Passificator.Data;
 using Passificator.Model;
-using Word = Microsoft.Office.Interop.Word;
-using Microsoft.Office.Tools.Word;
+using Passificator.Dto;
 
 namespace Passificator
 {
@@ -68,6 +63,19 @@ namespace Passificator
         {
             Staff chosen = (Staff)senderNameComboBox.SelectedItem;
             senderPositionTextBox.Text = chosen.Position;
+        }
+
+        private void generateButton_Click(object sender, EventArgs e)
+        {
+            var context = GetNoteContext();
+            //var noteGenerator = new NoteGenerator(context);
+            //noteGenerator.Generate();
+        }
+
+        private NoteContextDTO GetNoteContext()
+        {
+            // collect all required data and return dto
+            throw new NotImplementedException();
         }
     }
 }
