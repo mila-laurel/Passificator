@@ -6,6 +6,8 @@ using System.Linq;
 using System.Windows.Forms;
 using Passificator.Data;
 using Passificator.Model;
+using Word = Microsoft.Office.Interop.Word;
+using Microsoft.Office.Tools.Word;
 
 namespace Passificator
 {
