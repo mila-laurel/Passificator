@@ -39,6 +39,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.reasonTextBox = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.multiplyDaysVisitRadioButton = new System.Windows.Forms.RadioButton();
             this.oneDayVisitRadioButton = new System.Windows.Forms.RadioButton();
             this.visitDateToPicker = new System.Windows.Forms.DateTimePicker();
@@ -154,6 +156,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.reasonTextBox);
+            this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.multiplyDaysVisitRadioButton);
             this.groupBox2.Controls.Add(this.oneDayVisitRadioButton);
             this.groupBox2.Controls.Add(this.visitDateToPicker);
@@ -166,10 +170,27 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Visit";
             // 
+            // reasonTextBox
+            // 
+            this.reasonTextBox.Location = new System.Drawing.Point(97, 77);
+            this.reasonTextBox.Name = "reasonTextBox";
+            this.reasonTextBox.Size = new System.Drawing.Size(303, 20);
+            this.reasonTextBox.TabIndex = 4;
+            this.reasonTextBox.Text = "участия в совещании";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(13, 81);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(66, 13);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "Цель: для...";
+            // 
             // multiplyDaysVisitRadioButton
             // 
             this.multiplyDaysVisitRadioButton.AutoSize = true;
-            this.multiplyDaysVisitRadioButton.Location = new System.Drawing.Point(13, 68);
+            this.multiplyDaysVisitRadioButton.Location = new System.Drawing.Point(13, 54);
             this.multiplyDaysVisitRadioButton.Name = "multiplyDaysVisitRadioButton";
             this.multiplyDaysVisitRadioButton.Size = new System.Drawing.Size(56, 17);
             this.multiplyDaysVisitRadioButton.TabIndex = 2;
@@ -192,7 +213,7 @@
             // visitDateToPicker
             // 
             this.visitDateToPicker.Enabled = false;
-            this.visitDateToPicker.Location = new System.Drawing.Point(264, 65);
+            this.visitDateToPicker.Location = new System.Drawing.Point(264, 51);
             this.visitDateToPicker.Name = "visitDateToPicker";
             this.visitDateToPicker.Size = new System.Drawing.Size(136, 20);
             this.visitDateToPicker.TabIndex = 0;
@@ -200,7 +221,7 @@
             // visitDateFromPicker
             // 
             this.visitDateFromPicker.Enabled = false;
-            this.visitDateFromPicker.Location = new System.Drawing.Point(97, 65);
+            this.visitDateFromPicker.Location = new System.Drawing.Point(97, 51);
             this.visitDateFromPicker.Name = "visitDateFromPicker";
             this.visitDateFromPicker.Size = new System.Drawing.Size(136, 20);
             this.visitDateFromPicker.TabIndex = 0;
@@ -304,6 +325,8 @@
         private System.Windows.Forms.ComboBox guestNameComboBox;
         private System.Windows.Forms.Button generateButton;
         private System.Windows.Forms.Button editStaffButton;
+        private System.Windows.Forms.TextBox reasonTextBox;
+        private System.Windows.Forms.Label label5;
     }
 }
 

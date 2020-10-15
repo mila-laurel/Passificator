@@ -118,6 +118,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="template.dot" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
