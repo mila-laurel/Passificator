@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using Passificator.Data;
 using Passificator.Model;
 using Passificator.Dto;
+using System.Runtime.Remoting.Messaging;
 
 namespace Passificator
 {
@@ -74,8 +75,17 @@ namespace Passificator
 
         private NoteContextDTO GetNoteContext()
         {
+            NoteContextDTO context = new NoteContextDTO();
+            context.Adressee = addresseeNameComboBox.Text;
+            if (oneDayVisitRadioButton.Checked)
+                context.DateOfVisit = visitDatePicker.Value;
+            else
+            {
+                context.DateOfVisitFrom = visitDateFromPicker.Value;
+                context.DateOfVisitTo = visitDateToPicker.Value;
+            }
             // collect all required data and return dto
-            throw new NotImplementedException();
+            return context;
         }
     }
 }

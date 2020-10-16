@@ -212,7 +212,9 @@
             // 
             // visitDateToPicker
             // 
+            this.visitDateToPicker.CustomFormat = "dd.MM.yyyy";
             this.visitDateToPicker.Enabled = false;
+            this.visitDateToPicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.visitDateToPicker.Location = new System.Drawing.Point(264, 51);
             this.visitDateToPicker.Name = "visitDateToPicker";
             this.visitDateToPicker.Size = new System.Drawing.Size(136, 20);
@@ -220,7 +222,9 @@
             // 
             // visitDateFromPicker
             // 
+            this.visitDateFromPicker.CustomFormat = "dd.MM.yyyy";
             this.visitDateFromPicker.Enabled = false;
+            this.visitDateFromPicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.visitDateFromPicker.Location = new System.Drawing.Point(97, 51);
             this.visitDateFromPicker.Name = "visitDateFromPicker";
             this.visitDateFromPicker.Size = new System.Drawing.Size(136, 20);
@@ -228,6 +232,8 @@
             // 
             // visitDatePicker
             // 
+            this.visitDatePicker.CustomFormat = "dd.MM.yyyy";
+            this.visitDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.visitDatePicker.Location = new System.Drawing.Point(97, 26);
             this.visitDatePicker.Name = "visitDatePicker";
             this.visitDatePicker.Size = new System.Drawing.Size(136, 20);
