@@ -13,10 +13,13 @@ namespace Passificator
     {
         private readonly string path = Path.GetFullPath("template.dot");
 
+        private readonly NoteContextDTO _context;
+
         public NoteGenerator(NoteContextDTO noteContextDTO)
         {
-            Application temple = new Application();
-            temple.Documents.Add(path);
+            _context = noteContextDTO;
+            var wordApplication = new Application {Visible = true};
+            wordApplication.Documents.Add(path);
         }
 
         public void Generate()

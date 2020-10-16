@@ -69,8 +69,8 @@ namespace Passificator
         private void generateButton_Click(object sender, EventArgs e)
         {
             var context = GetNoteContext();
-            //var noteGenerator = new NoteGenerator(context);
-            //noteGenerator.Generate();
+            var noteGenerator = new NoteGenerator(context);
+            noteGenerator.Generate();
         }
 
         private NoteContextDTO GetNoteContext()
