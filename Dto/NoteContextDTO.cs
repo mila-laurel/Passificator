@@ -6,7 +6,7 @@ namespace Passificator.Dto
 {
     internal class NoteContextDTO
     {
-        public string[] Adressee { get; set; }
+        public string Adressee { get; set; }
         public string AdresseePosition { get; set; }
         public string Sender { get; set; }
         public string SenderPosition { get; set; }

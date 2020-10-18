@@ -99,7 +99,7 @@ namespace Passificator
         private NoteContextDTO GetNoteContext()
         {
             NoteContextDTO context = new NoteContextDTO();
-            context.Adressee = ((Staff)addresseeNameComboBox.SelectedItem).Name.Split(' ');
+            context.Adressee = addresseeNameComboBox.Text;
             context.AdresseePosition = addresseePositionTextBox.Text;
             context.Sender = senderNameComboBox.Text;
             context.SenderPosition = senderPositionTextBox.Text;
@@ -114,23 +114,10 @@ namespace Passificator
             {
                 context.Guests.Add(new GuestDto() { GuestName = guestsDataGrid.Rows[i].Cells[1].ToString(), GuestCompany = guestsDataGrid.Rows[i].Cells[2].ToString(), GuestDocument = guestsDataGrid.Rows[i].Cells[3].ToString() });
             }
-            _people.Clear();
             // collect all required data and return dto
             return context;
         }
 
-        private void addresseeNameComboBox_Format(object sender, ListControlConvertEventArgs e)
-        {
-            string[] LFP = ((Staff)e.ListItem).Name.Split(' ');
-            e.Value = LFP[1].Substring(0, 1) + "." + LFP[2].Substring(0, 1) + ". " + LFP[0];
-        }
-
-        private void senderNameComboBox_Format(object sender, ListControlConvertEventArgs e)
-        {
-            string[] LFP = ((Staff)e.ListItem).Name.Split(' ');
-            e.Value = LFP[1].Substring(0, 1) + "." + LFP[2].Substring(0, 1) + ". " + LFP[0];
-        }
-        
         private void UpdateData(string selectedGuest)
         {
             var guests = (from a in GuestRepository.GetGuestList()

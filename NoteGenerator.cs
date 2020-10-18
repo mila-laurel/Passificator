@@ -43,14 +43,15 @@ namespace Passificator
             range = wordApplication.ActiveDocument.Content;
             range.Find.ClearFormatting();
             if (range.Find.Execute(FindText: "{From}"))
-                range.Text = noteContextDTO.SenderPosition + " " + noteContextDTO.Sender + "а";
+                range.Text = noteContextDTO.SenderPosition + " " + ShowInitialsAndLastName(noteContextDTO.Sender) + "а";
             else
                 throw new Exception();
         }
 
-        private string ShowInitialsAndLastName(string[] name)
+        private string ShowInitialsAndLastName(string name)
         {
-            return name[1].First() + "." + name[2].First() + ". " + name[0];
+            string[] splittedName = name.Split(' ');
+            return splittedName[1].First() + "." + splittedName[2].First() + ". " + splittedName[0];
         }
 
         private void GenerateAppeal(Application wordApplication, NoteContextDTO noteContextDTO)
@@ -58,7 +59,10 @@ namespace Passificator
             Range range = wordApplication.ActiveDocument.Content;
             range.Find.ClearFormatting();
             if (range.Find.Execute(FindText: "{Appeal}"))
-                range.Text = noteContextDTO.Adressee[1] + " " + noteContextDTO.Adressee[2];
+            {
+                string[] splittedName = noteContextDTO.Adressee.Split(' ');
+                range.Text = splittedName[1] + " " + splittedName[2];
+            }
             else
                 throw new Exception();
         }
@@ -85,7 +89,7 @@ namespace Passificator
             range = wordApplication.ActiveDocument.Content;
             range.Find.ClearFormatting();
             if (range.Find.Execute(FindText: "{SenderName}"))
-                range.Text = noteContextDTO.Sender;
+                range.Text = ShowInitialsAndLastName(noteContextDTO.Sender);
             else
                 throw new Exception();
         }
