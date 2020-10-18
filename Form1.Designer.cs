@@ -39,6 +39,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.toWhomTextBox = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.escortTextBox = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.reasonTextBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.multiplyDaysVisitRadioButton = new System.Windows.Forms.RadioButton();
@@ -108,6 +112,7 @@
             this.senderNameComboBox.Size = new System.Drawing.Size(121, 21);
             this.senderNameComboBox.TabIndex = 1;
             this.senderNameComboBox.SelectedIndexChanged += new System.EventHandler(this.senderNameComboBox_SelectedIndexChanged);
+            this.senderNameComboBox.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.senderNameComboBox_Format);
             // 
             // addresseeNameComboBox
             // 
@@ -118,6 +123,7 @@
             this.addresseeNameComboBox.Size = new System.Drawing.Size(121, 21);
             this.addresseeNameComboBox.TabIndex = 1;
             this.addresseeNameComboBox.SelectedIndexChanged += new System.EventHandler(this.addresseeNameComboBox_SelectedIndexChanged);
+            this.addresseeNameComboBox.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.addresseeNameComboBox_Format);
             // 
             // label4
             // 
@@ -156,6 +162,10 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.toWhomTextBox);
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Controls.Add(this.escortTextBox);
+            this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.reasonTextBox);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.multiplyDaysVisitRadioButton);
@@ -169,6 +179,38 @@
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Visit";
+            // 
+            // toWhomTextBox
+            // 
+            this.toWhomTextBox.Location = new System.Drawing.Point(427, 33);
+            this.toWhomTextBox.Name = "toWhomTextBox";
+            this.toWhomTextBox.Size = new System.Drawing.Size(100, 20);
+            this.toWhomTextBox.TabIndex = 8;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(424, 16);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(42, 13);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "К кому";
+            // 
+            // escortTextBox
+            // 
+            this.escortTextBox.Location = new System.Drawing.Point(427, 73);
+            this.escortTextBox.Name = "escortTextBox";
+            this.escortTextBox.Size = new System.Drawing.Size(100, 20);
+            this.escortTextBox.TabIndex = 6;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(424, 56);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(99, 13);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Сопровождающий";
             // 
             // reasonTextBox
             // 
@@ -276,6 +318,7 @@
             this.guestNameComboBox.Name = "guestNameComboBox";
             this.guestNameComboBox.Size = new System.Drawing.Size(445, 21);
             this.guestNameComboBox.TabIndex = 1;
+            this.guestNameComboBox.TextChanged += new System.EventHandler(this.guestNameComboBox_TextChanged);
             // 
             // generateButton
             // 
@@ -333,6 +376,10 @@
         private System.Windows.Forms.Button editStaffButton;
         private System.Windows.Forms.TextBox reasonTextBox;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox toWhomTextBox;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox escortTextBox;
+        private System.Windows.Forms.Label label6;
     }
 }
 

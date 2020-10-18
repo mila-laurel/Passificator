@@ -18,13 +18,47 @@ namespace Passificator
         public NoteGenerator(NoteContextDTO noteContextDTO)
         {
             _context = noteContextDTO;
-            var wordApplication = new Application {Visible = true};
-            wordApplication.Documents.Add(path);
         }
 
         public void Generate()
         {
+            var wordApplication = new Application { Visible = true };
+            wordApplication.Documents.Add(path);
+            
+            GenerateHeader(wordApplication, _context);
+            GenerateAppeal(wordApplication, _context);
+        }
 
+        private void GenerateHeader(Application wordApplication, NoteContextDTO noteContextDTO)
+        {
+            Range range = wordApplication.ActiveDocument.Content;
+            range.Find.ClearFormatting();
+            if (range.Find.Execute(FindText: "{ToWhom}"))
+                range.Text = noteContextDTO.AdresseePosition + " " + ShowInitialsAndLastName(noteContextDTO.Adressee) + "у";
+            else
+                throw new Exception();
+
+            range = wordApplication.ActiveDocument.Content;
+            range.Find.ClearFormatting();
+            if (range.Find.Execute(FindText: "{From}"))
+                range.Text = noteContextDTO.SenderPosition + " " + noteContextDTO.Sender;
+            else
+                throw new Exception();
+        }
+
+        private string ShowInitialsAndLastName(string[] name)
+        {
+            return name[1].First() + "." + name[2].First() + ". " + name[0];
+        }
+        
+        private void GenerateAppeal(Application wordApplication, NoteContextDTO noteContextDTO)
+        {
+            Range range = wordApplication.ActiveDocument.Content;
+            range.Find.ClearFormatting();
+            if (range.Find.Execute(FindText: "{Appeal}"))
+                range.Text = noteContextDTO.Adressee[1] + " " + noteContextDTO.Adressee[2];
+            else
+                throw new Exception();
         }
 
         public void CreateTable(GuestDto guestDto)

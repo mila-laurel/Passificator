@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Passificator
 {
-   class Guest
+    [Table("Guests")]
+    internal class Guest
     {
-        public string FIO { get; set; }
-       
+        [Column("id")]
+        [Key]
+        public int Id { get; set; }
+        [Column("name")]
+        public string Name { get; set; }
+        [Column("company")]
         public string Company { get; set; }
+        [Column("document")]
         public string Document { get; set; }
-      
     }
 }

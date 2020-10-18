@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\DatabaseContext.cs" />
+    <Compile Include="Data\GuestRepository.cs" />
     <Compile Include="Data\StaffRepository.cs" />
     <Compile Include="Dto\GuestDto.cs" />
     <Compile Include="Model\Guest.cs" />
