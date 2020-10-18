@@ -24,9 +24,11 @@ namespace Passificator
         {
             var wordApplication = new Application { Visible = true };
             wordApplication.Documents.Add(path);
-            
+
             GenerateHeader(wordApplication, _context);
             GenerateAppeal(wordApplication, _context);
+            GenerateReason(wordApplication, _context);
+            GenerateSignature(wordApplication, _context);
         }
 
         private void GenerateHeader(Application wordApplication, NoteContextDTO noteContextDTO)
@@ -41,7 +43,7 @@ namespace Passificator
             range = wordApplication.ActiveDocument.Content;
             range.Find.ClearFormatting();
             if (range.Find.Execute(FindText: "{From}"))
-                range.Text = noteContextDTO.SenderPosition + " " + noteContextDTO.Sender;
+                range.Text = noteContextDTO.SenderPosition + " " + noteContextDTO.Sender + "а";
             else
                 throw new Exception();
         }
@@ -50,7 +52,7 @@ namespace Passificator
         {
             return name[1].First() + "." + name[2].First() + ". " + name[0];
         }
-        
+
         private void GenerateAppeal(Application wordApplication, NoteContextDTO noteContextDTO)
         {
             Range range = wordApplication.ActiveDocument.Content;
@@ -67,6 +69,23 @@ namespace Passificator
             range.Find.ClearFormatting();
             if (range.Find.Execute(FindText: "{Reason}"))
                 range.Text = noteContextDTO.Reason;
+            else
+                throw new Exception();
+        }
+
+        private void GenerateSignature(Application wordApplication, NoteContextDTO noteContextDTO)
+        {
+            Range range = wordApplication.ActiveDocument.Content;
+            range.Find.ClearFormatting();
+            if (range.Find.Execute(FindText: "{SenderPosition}"))
+                range.Text = noteContextDTO.SenderPosition;
+            else
+                throw new Exception();
+
+            range = wordApplication.ActiveDocument.Content;
+            range.Find.ClearFormatting();
+            if (range.Find.Execute(FindText: "{SenderName}"))
+                range.Text = noteContextDTO.Sender;
             else
                 throw new Exception();
         }

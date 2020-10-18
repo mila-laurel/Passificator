@@ -101,7 +101,7 @@ namespace Passificator
             NoteContextDTO context = new NoteContextDTO();
             context.Adressee = ((Staff)addresseeNameComboBox.SelectedItem).Name.Split(' ');
             context.AdresseePosition = addresseePositionTextBox.Text;
-            context.Sender = senderNameComboBox.Text + "а";
+            context.Sender = senderNameComboBox.Text;
             context.SenderPosition = senderPositionTextBox.Text;
             context.DateOfVisit = visitDatePicker.Value;
             context.DateOfVisitFrom = visitDateFromPicker.Value;
