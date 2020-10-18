@@ -13,6 +13,7 @@ namespace Passificator.Dto
         public DateTime DateOfVisit { get; set; }
         public DateTime DateOfVisitFrom { get; set; }
         public DateTime DateOfVisitTo { get; set; }
+        public string Reason { get; set; }
         public string PersonAndDepartmentToVisit { get; set; }
         public string Escort { get; set; }
         public List<GuestDto> Guests { get; set; }

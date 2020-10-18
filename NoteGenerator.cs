@@ -61,6 +61,16 @@ namespace Passificator
                 throw new Exception();
         }
 
+        private void GenerateReason(Application wordApplication, NoteContextDTO noteContextDTO)
+        {
+            Range range = wordApplication.ActiveDocument.Content;
+            range.Find.ClearFormatting();
+            if (range.Find.Execute(FindText: "{Reason}"))
+                range.Text = noteContextDTO.Reason;
+            else
+                throw new Exception();
+        }
+
         public void CreateTable(GuestDto guestDto)
         {
 

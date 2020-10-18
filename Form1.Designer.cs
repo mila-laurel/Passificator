@@ -87,7 +87,7 @@
             this.editStaffButton.TabIndex = 4;
             this.editStaffButton.Text = "+";
             this.editStaffButton.UseVisualStyleBackColor = true;
-            this.editStaffButton.Click += new System.EventHandler(this.addGuestButton_Click);
+            this.editStaffButton.Click += new System.EventHandler(this.editStaffButton_Click);
             // 
             // senderPositionTextBox
             // 

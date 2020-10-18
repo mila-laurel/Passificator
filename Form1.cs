@@ -6,6 +6,7 @@ using Passificator.Dto;
 using System.Runtime.Remoting.Messaging;
 using Passificator.Utilities.Collections;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Passificator
 {
@@ -19,8 +20,7 @@ namespace Passificator
             FillDropDownList(addresseeNameComboBox);
             FillDropDownList(senderNameComboBox);
         }
-
-        private void addGuestButton_Click(object sender, EventArgs e)
+        private void editStaffButton_Click(object sender, EventArgs e)
         {
             var editorForm = new StaffEditorForm();
 
@@ -74,6 +74,23 @@ namespace Passificator
 
         private void generateButton_Click(object sender, EventArgs e)
         {
+            var newEntities = _people.Changes
+               .Where(c => c.ChangeType == ChangeType.Added)
+               .Select(c => new Guest() { Name = c.Item.Name, Company = c.Item.Company, Document = c.Item.Document });
+            foreach (Guest entity in newEntities)
+                GuestRepository.Create(entity);
+
+            var changedEntities = _people
+                    .Where(x => x.IsDirty() && x.Id > 0)
+                    .ToList();
+
+            foreach (var c in changedEntities)
+            {
+                GuestRepository.Update(new Guest() { Id = c.Id, Name = c.Name, Company = c.Company, Document = c.Document });
+            }
+
+            _people.ClearChanges();
+
             var context = GetNoteContext();
             var noteGenerator = new NoteGenerator(context);
             noteGenerator.Generate();
@@ -89,8 +106,15 @@ namespace Passificator
             context.DateOfVisit = visitDatePicker.Value;
             context.DateOfVisitFrom = visitDateFromPicker.Value;
             context.DateOfVisitTo = visitDateToPicker.Value;
+            context.Reason = reasonTextBox.Text;
             context.Escort = escortTextBox.Text;
             context.PersonAndDepartmentToVisit = toWhomTextBox.Text + ", ";
+            context.Guests = new List<GuestDto>();
+            for (int i = 0; i < guestsDataGrid.Rows.Count; i++)
+            {
+                context.Guests.Add(new GuestDto() { GuestName = guestsDataGrid.Rows[i].Cells[1].ToString(), GuestCompany = guestsDataGrid.Rows[i].Cells[2].ToString(), GuestDocument = guestsDataGrid.Rows[i].Cells[3].ToString() });
+            }
+            _people.Clear();
             // collect all required data and return dto
             return context;
         }
@@ -106,20 +130,26 @@ namespace Passificator
             string[] LFP = ((Staff)e.ListItem).Name.Split(' ');
             e.Value = LFP[1].Substring(0, 1) + "." + LFP[2].Substring(0, 1) + ". " + LFP[0];
         }
-
-        private void UpdateData()
+        
+        private void UpdateData(string selectedGuest)
         {
-            _people.Clear();
-
-            var guests = from a in GuestRepository.GetGuestList()
-                                 select new GuestViewModel() { Id = a.Id, Name = a.Name, Company = a.Company, Document = a.Document };
-
-            foreach (var guest in guests.ToList())
+            var guests = (from a in GuestRepository.GetGuestList()
+                          where a.Name.Equals(selectedGuest)
+                          select new GuestViewModel() { Id = a.Id, Name = a.Name, Company = a.Company, Document = a.Document }).ToList();
+            if (guests.Any())
             {
-                guest.ResetDirty();
-                _people.Add(guest);
+                foreach (var guest in guests)
+                {
+                    guest.ResetDirty();
+                    _people.Add(guest);
+                }
+            }
+            else
+            {
+                _people.Add(new GuestViewModel() { Name = selectedGuest });
             }
 
+            guestsDataGrid.DataSource = _people;
             guestsDataGrid.Columns[0].Visible = false;
             guestsDataGrid.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             _people.ClearChanges();
@@ -179,7 +209,16 @@ namespace Passificator
 
         private void guestNameComboBox_TextChanged(object sender, EventArgs e)
         {
+            //guestNameComboBox.Items.Clear();
+            var guestsNames = (from a in GuestRepository.GetGuestList()
+                               where a.Name.Contains(guestNameComboBox.Text)
+                               select a.Name).ToArray();
+            guestNameComboBox.Items.AddRange(guestsNames);
+        }
 
+        private void addGuestButton_Click(object sender, EventArgs e)
+        {
+            UpdateData(guestNameComboBox.Text);
         }
     }
 }
