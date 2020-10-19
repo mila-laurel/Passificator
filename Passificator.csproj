@@ -91,6 +91,8 @@
       <DependentUpon>StaffEditorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities\Collections\TrackList.cs" />
+    <Compile Include="ViewModel\GuestViewModel.cs" />
+    <Compile Include="ViewModel\StaffViewModel.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

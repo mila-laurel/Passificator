@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using Passificator.Data;
 using Passificator.Model;
 using Passificator.Dto;
-using System.Runtime.Remoting.Messaging;
+using Passificator.ViewModel;
 using Passificator.Utilities.Collections;
 using System.Linq;
 using System.Collections.Generic;
@@ -142,65 +142,21 @@ namespace Passificator
             _people.ClearChanges();
         }
 
-        private class GuestViewModel
-        {
-            private bool _isDirty;
-            private int _id = -1;
-            private string _name;
-            private string _company;
-            private string _document;
-
-            public int Id
-            {
-                get => _id;
-                set
-                {
-                    _isDirty = true;
-                    _id = value;
-                }
-            }
-
-            public string Name
-            {
-                get => _name;
-                set
-                {
-                    _isDirty = true;
-                    _name = value;
-                }
-            }
-
-            public string Company
-            {
-                get => _company;
-                set
-                {
-                    _isDirty = true;
-                    _company = value;
-                }
-            }
-
-            public string Document
-            {
-                get => _document;
-                set
-                {
-                    _isDirty = true;
-                    _document = value;
-                }
-            }
-
-            public bool IsDirty() => _isDirty;
-            public void ResetDirty() => _isDirty = false;
-        }
-
         private void guestNameComboBox_TextChanged(object sender, EventArgs e)
         {
-            //guestNameComboBox.Items.Clear();
-            var guestsNames = (from a in GuestRepository.GetGuestList()
-                               where a.Name.Contains(guestNameComboBox.Text)
-                               select a.Name).ToArray();
-            guestNameComboBox.Items.AddRange(guestsNames);
+            if (guestNameComboBox.Text.Length > 3)
+            {
+                var guestsNames = (from a in GuestRepository.GetGuestList()
+                                   where a.Name.Contains(guestNameComboBox.Text)
+                                   select a.Name).ToArray();
+                if (guestsNames.Any())
+                {
+                    if (guestNameComboBox.Items.Count > 0)
+                        guestNameComboBox.Items.Clear();
+                    guestNameComboBox.Items.AddRange(guestsNames);
+                    guestNameComboBox.DroppedDown = true;
+                }
+            }
         }
 
         private void addGuestButton_Click(object sender, EventArgs e)
