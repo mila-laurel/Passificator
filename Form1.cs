@@ -110,9 +110,9 @@ namespace Passificator
             context.Escort = escortTextBox.Text;
             context.PersonAndDepartmentToVisit = toWhomTextBox.Text + ", ";
             context.Guests = new List<GuestDto>();
-            for (int i = 0; i < guestsDataGrid.Rows.Count; i++)
+            for (int i = 0; i < guestsDataGrid.Rows.Count-1; i++)
             {
-                context.Guests.Add(new GuestDto() { GuestName = guestsDataGrid.Rows[i].Cells[1].ToString(), GuestCompany = guestsDataGrid.Rows[i].Cells[2].ToString(), GuestDocument = guestsDataGrid.Rows[i].Cells[3].ToString() });
+                context.Guests.Add(new GuestDto() { GuestName = guestsDataGrid.Rows[i].Cells[1].Value.ToString(), GuestCompany = guestsDataGrid.Rows[i].Cells[2].Value.ToString(), GuestDocument = guestsDataGrid.Rows[i].Cells[3].Value.ToString() });
             }
             // collect all required data and return dto
             return context;

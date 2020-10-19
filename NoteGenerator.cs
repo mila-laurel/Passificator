@@ -28,6 +28,13 @@ namespace Passificator
             GenerateHeader(wordApplication, _context);
             GenerateAppeal(wordApplication, _context);
             GenerateReason(wordApplication, _context);
+
+            CreateTable(wordApplication, _context.Guests[0], 1);
+            //for (int i = 1; i < _context.Guests.Count(); i++)
+            //{
+            //    CreateTable(wordApplication, _context.Guests[i], i);
+            //}
+
             GenerateSignature(wordApplication, _context);
         }
 
@@ -94,9 +101,9 @@ namespace Passificator
                 throw new Exception();
         }
 
-        public void CreateTable(GuestDto guestDto)
+        public void CreateTable(Application wordApplication, GuestDto guestDto, int orderNumber)
         {
-
+            wordApplication.ActiveDocument.Tables[2].Rows.Add(wordApplication.ActiveDocument.Tables[2].Rows[2]);
         }
     }
 }
