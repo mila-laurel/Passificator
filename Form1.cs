@@ -76,7 +76,7 @@ namespace Passificator
         {
             var newEntities = _people.Changes
                .Where(c => c.ChangeType == ChangeType.Added)
-               .Select(c => new Guest() { Name = c.Item.Name, Company = c.Item.Company, Document = c.Item.Document });
+               .Select(c => new Guest() { Name = c.Item.Name, Company = c.Item.Company, Document = c.Item.Document, Car = c.Item.Car });
             foreach (Guest entity in newEntities)
                 GuestRepository.Create(entity);
 
@@ -86,7 +86,7 @@ namespace Passificator
 
             foreach (var c in changedEntities)
             {
-                GuestRepository.Update(new Guest() { Id = c.Id, Name = c.Name, Company = c.Company, Document = c.Document });
+                GuestRepository.Update(new Guest() { Id = c.Id, Name = c.Name, Company = c.Company, Document = c.Document, Car = c.Car });
             }
 
             _people.ClearChanges();
@@ -112,7 +112,12 @@ namespace Passificator
             context.Guests = new List<GuestDto>();
             for (int i = 0; i < guestsDataGrid.Rows.Count-1; i++)
             {
-                context.Guests.Add(new GuestDto() { GuestName = guestsDataGrid.Rows[i].Cells[1].Value.ToString(), GuestCompany = guestsDataGrid.Rows[i].Cells[2].Value.ToString(), GuestDocument = guestsDataGrid.Rows[i].Cells[3].Value.ToString() });
+                context.Guests.Add(new GuestDto() { 
+                    GuestName = guestsDataGrid.Rows[i].Cells[1].Value.ToString(), 
+                    GuestCompany = guestsDataGrid.Rows[i].Cells[2].Value.ToString(), 
+                    GuestDocument = guestsDataGrid.Rows[i].Cells[3].Value.ToString(),
+                    GuestCar = guestsDataGrid.Rows[i].Cells[4].Value.ToString()
+                });
             }
             // collect all required data and return dto
             return context;
@@ -122,7 +127,7 @@ namespace Passificator
         {
             var guests = (from a in GuestRepository.GetGuestList()
                           where a.Name.Equals(selectedGuest)
-                          select new GuestViewModel() { Id = a.Id, Name = a.Name, Company = a.Company, Document = a.Document }).ToList();
+                          select new GuestViewModel() { Id = a.Id, Name = a.Name, Company = a.Company, Document = a.Document, Car = a.Car }).ToList();
             if (guests.Any())
             {
                 foreach (var guest in guests)
@@ -138,7 +143,7 @@ namespace Passificator
 
             guestsDataGrid.DataSource = _people;
             guestsDataGrid.Columns[0].Visible = false;
-            guestsDataGrid.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            guestsDataGrid.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             _people.ClearChanges();
         }
 

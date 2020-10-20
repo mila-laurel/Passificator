@@ -15,5 +15,7 @@ namespace Passificator
         public string Company { get; set; }
         [Column("document")]
         public string Document { get; set; }
+        [Column("car")]
+        public string Car { get; set; }
     }
 }

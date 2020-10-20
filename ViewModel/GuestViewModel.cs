@@ -7,6 +7,7 @@
         private string _name;
         private string _company;
         private string _document;
+        private string _car;
 
         public int Id
         {
@@ -45,6 +46,16 @@
             {
                 _isDirty = true;
                 _document = value;
+            }
+        }
+
+        public string Car 
+        {
+            get => _car;
+            set
+            {
+                _isDirty = true;
+                _car = value;
             }
         }
 

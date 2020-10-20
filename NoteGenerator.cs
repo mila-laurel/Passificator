@@ -29,11 +29,10 @@ namespace Passificator
             GenerateAppeal(wordApplication, _context);
             GenerateReason(wordApplication, _context);
 
-            CreateTable(wordApplication, _context.Guests[0], 1);
-            //for (int i = 1; i < _context.Guests.Count(); i++)
-            //{
-            //    CreateTable(wordApplication, _context.Guests[i], i);
-            //}
+            for (int i = 0; i < _context.Guests.Count(); i++)
+            {
+                CreateTable(wordApplication, _context.Guests[i], i + 2);
+            }
 
             GenerateSignature(wordApplication, _context);
         }
@@ -103,7 +102,21 @@ namespace Passificator
 
         public void CreateTable(Application wordApplication, GuestDto guestDto, int orderNumber)
         {
-            wordApplication.ActiveDocument.Tables[2].Rows.Add(wordApplication.ActiveDocument.Tables[2].Rows[2]);
+            wordApplication.ActiveDocument.Tables[2].Rows.Add(wordApplication.ActiveDocument.Tables[2].Rows[orderNumber]);
+            Cell cell = wordApplication.ActiveDocument.Tables[2].Cell(orderNumber, 1);
+            cell.Range.Text = _context.DateOfVisit.ToString();
+            cell = wordApplication.ActiveDocument.Tables[2].Cell(orderNumber, 2);
+            cell.Range.Text = guestDto.GuestName;
+            cell = wordApplication.ActiveDocument.Tables[2].Cell(orderNumber, 3);
+            cell.Range.Text = _context.PersonAndDepartmentToVisit;
+            cell = wordApplication.ActiveDocument.Tables[2].Cell(orderNumber, 4);
+            cell.Range.Text = guestDto.GuestCompany;
+            cell = wordApplication.ActiveDocument.Tables[2].Cell(orderNumber, 5);
+            cell.Range.Text = guestDto.GuestDocument;
+            cell = wordApplication.ActiveDocument.Tables[2].Cell(orderNumber, 6);
+            cell.Range.Text = guestDto.GuestCar;
+            cell = wordApplication.ActiveDocument.Tables[2].Cell(orderNumber, 7);
+            cell.Range.Text = _context.Escort;
         }
     }
 }
