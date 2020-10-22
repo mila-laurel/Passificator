@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Office.Interop.Word;
 using Passificator.Dto;
 
@@ -104,11 +101,14 @@ namespace Passificator
         {
             wordApplication.ActiveDocument.Tables[2].Rows.Add(wordApplication.ActiveDocument.Tables[2].Rows[orderNumber]);
             Cell cell = wordApplication.ActiveDocument.Tables[2].Cell(orderNumber, 1);
-            cell.Range.Text = _context.DateOfVisit.ToString();
+            if (_context.SeveralDaysVisit)
+                cell.Range.Text = _context.DateOfVisitFrom.Date.ToString("d") + "-" + _context.DateOfVisitTo.Date.ToString("d") + " " + _context.TimeOfVisit;
+            else
+                cell.Range.Text = _context.DateOfVisit.ToString("d") + " " + _context.TimeOfVisit; ;
             cell = wordApplication.ActiveDocument.Tables[2].Cell(orderNumber, 2);
             cell.Range.Text = guestDto.GuestName;
             cell = wordApplication.ActiveDocument.Tables[2].Cell(orderNumber, 3);
-            cell.Range.Text = _context.PersonAndDepartmentToVisit;
+            cell.Range.Text = ShowInitialsAndLastName(_context.PersonAndDepartmentToVisit) + ", " + _context.SenderDepartment;
             cell = wordApplication.ActiveDocument.Tables[2].Cell(orderNumber, 4);
             cell.Range.Text = guestDto.GuestCompany;
             cell = wordApplication.ActiveDocument.Tables[2].Cell(orderNumber, 5);
@@ -116,7 +116,7 @@ namespace Passificator
             cell = wordApplication.ActiveDocument.Tables[2].Cell(orderNumber, 6);
             cell.Range.Text = guestDto.GuestCar;
             cell = wordApplication.ActiveDocument.Tables[2].Cell(orderNumber, 7);
-            cell.Range.Text = _context.Escort;
+            cell.Range.Text = ShowInitialsAndLastName(_context.Escort);
         }
     }
 }

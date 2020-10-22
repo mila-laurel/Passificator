@@ -82,6 +82,7 @@
     <Compile Include="Model\Staff.cs" />
     <Compile Include="Dto\NoteContextDTO.cs" />
     <Compile Include="NoteGenerator.cs" />
+    <Compile Include="PassGenerator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaffEditorForm.cs">
@@ -122,6 +123,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="template.dot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="templatePass.dot">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

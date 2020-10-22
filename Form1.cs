@@ -103,12 +103,15 @@ namespace Passificator
             context.AdresseePosition = addresseePositionTextBox.Text;
             context.Sender = senderNameComboBox.Text;
             context.SenderPosition = senderPositionTextBox.Text;
+            context.SeveralDaysVisit = multipleDaysVisitRadioButton.Enabled ? true : false;
             context.DateOfVisit = visitDatePicker.Value;
             context.DateOfVisitFrom = visitDateFromPicker.Value;
             context.DateOfVisitTo = visitDateToPicker.Value;
+            context.TimeOfVisit = timeOfVisitTextBox.Text;
             context.Reason = reasonTextBox.Text;
             context.Escort = escortTextBox.Text;
-            context.PersonAndDepartmentToVisit = toWhomTextBox.Text + ", ";
+            context.PersonAndDepartmentToVisit = toWhomTextBox.Text;
+            context.SenderDepartment = ((Staff)senderNameComboBox.SelectedItem).Department;
             context.Guests = new List<GuestDto>();
             for (int i = 0; i < guestsDataGrid.Rows.Count-1; i++)
             {

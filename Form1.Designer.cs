@@ -45,7 +45,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.reasonTextBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.multiplyDaysVisitRadioButton = new System.Windows.Forms.RadioButton();
+            this.multipleDaysVisitRadioButton = new System.Windows.Forms.RadioButton();
             this.oneDayVisitRadioButton = new System.Windows.Forms.RadioButton();
             this.visitDateToPicker = new System.Windows.Forms.DateTimePicker();
             this.visitDateFromPicker = new System.Windows.Forms.DateTimePicker();
@@ -55,6 +55,8 @@
             this.addGuestButton = new System.Windows.Forms.Button();
             this.guestNameComboBox = new System.Windows.Forms.ComboBox();
             this.generateButton = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.timeOfVisitTextBox = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.guestsDataGrid)).BeginInit();
@@ -160,20 +162,22 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.timeOfVisitTextBox);
+            this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.toWhomTextBox);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.escortTextBox);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.reasonTextBox);
             this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.multiplyDaysVisitRadioButton);
+            this.groupBox2.Controls.Add(this.multipleDaysVisitRadioButton);
             this.groupBox2.Controls.Add(this.oneDayVisitRadioButton);
             this.groupBox2.Controls.Add(this.visitDateToPicker);
             this.groupBox2.Controls.Add(this.visitDateFromPicker);
             this.groupBox2.Controls.Add(this.visitDatePicker);
             this.groupBox2.Location = new System.Drawing.Point(12, 127);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(549, 108);
+            this.groupBox2.Size = new System.Drawing.Size(549, 126);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Visit";
@@ -227,15 +231,15 @@
             this.label5.TabIndex = 3;
             this.label5.Text = "Цель: для...";
             // 
-            // multiplyDaysVisitRadioButton
+            // multipleDaysVisitRadioButton
             // 
-            this.multiplyDaysVisitRadioButton.AutoSize = true;
-            this.multiplyDaysVisitRadioButton.Location = new System.Drawing.Point(13, 54);
-            this.multiplyDaysVisitRadioButton.Name = "multiplyDaysVisitRadioButton";
-            this.multiplyDaysVisitRadioButton.Size = new System.Drawing.Size(56, 17);
-            this.multiplyDaysVisitRadioButton.TabIndex = 2;
-            this.multiplyDaysVisitRadioButton.Text = "От До";
-            this.multiplyDaysVisitRadioButton.UseVisualStyleBackColor = true;
+            this.multipleDaysVisitRadioButton.AutoSize = true;
+            this.multipleDaysVisitRadioButton.Location = new System.Drawing.Point(13, 54);
+            this.multipleDaysVisitRadioButton.Name = "multipleDaysVisitRadioButton";
+            this.multipleDaysVisitRadioButton.Size = new System.Drawing.Size(56, 17);
+            this.multipleDaysVisitRadioButton.TabIndex = 2;
+            this.multipleDaysVisitRadioButton.Text = "От До";
+            this.multipleDaysVisitRadioButton.UseVisualStyleBackColor = true;
             // 
             // oneDayVisitRadioButton
             // 
@@ -292,9 +296,9 @@
             this.groupBox3.Controls.Add(this.addGuestButton);
             this.groupBox3.Controls.Add(this.guestsDataGrid);
             this.groupBox3.Controls.Add(this.guestNameComboBox);
-            this.groupBox3.Location = new System.Drawing.Point(12, 242);
+            this.groupBox3.Location = new System.Drawing.Point(12, 253);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(549, 345);
+            this.groupBox3.Size = new System.Drawing.Size(549, 334);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Гости";
@@ -327,6 +331,23 @@
             this.generateButton.Text = "Генерировать";
             this.generateButton.UseVisualStyleBackColor = true;
             this.generateButton.Click += new System.EventHandler(this.generateButton_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(17, 104);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(40, 13);
+            this.label9.TabIndex = 9;
+            this.label9.Text = "Время";
+            // 
+            // timeOfVisitTextBox
+            // 
+            this.timeOfVisitTextBox.Location = new System.Drawing.Point(97, 99);
+            this.timeOfVisitTextBox.Name = "timeOfVisitTextBox";
+            this.timeOfVisitTextBox.Size = new System.Drawing.Size(100, 20);
+            this.timeOfVisitTextBox.TabIndex = 10;
+            this.timeOfVisitTextBox.Text = "09:00-18:00";
             // 
             // Form1
             // 
@@ -362,7 +383,7 @@
         private System.Windows.Forms.ComboBox senderNameComboBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.RadioButton multiplyDaysVisitRadioButton;
+        private System.Windows.Forms.RadioButton multipleDaysVisitRadioButton;
         private System.Windows.Forms.RadioButton oneDayVisitRadioButton;
         private System.Windows.Forms.DateTimePicker visitDateToPicker;
         private System.Windows.Forms.DateTimePicker visitDateFromPicker;
@@ -378,6 +399,8 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox escortTextBox;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox timeOfVisitTextBox;
+        private System.Windows.Forms.Label label9;
     }
 }
 

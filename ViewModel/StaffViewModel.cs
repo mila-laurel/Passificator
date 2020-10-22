@@ -6,6 +6,7 @@
         private int _id = -1;
         private string _name;
         private string _position;
+        private string _department;
 
         public int Id
         {
@@ -34,6 +35,16 @@
             {
                 _isDirty = true;
                 _position = value;
+            }
+        }
+
+        public string Department
+        {
+            get => _department;
+            set
+            {
+                _isDirty = true;
+                _department = value;
             }
         }
 

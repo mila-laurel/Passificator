@@ -13,5 +13,7 @@ namespace Passificator.Model
         public string Name { get; set; }
         [Column("position")]
         public string Position { get; set; }
+        [Column("department")]
+        public string Department { get; set; }
     }
 }
