@@ -35,7 +35,7 @@ namespace Passificator
 
             var newEntities = _people.Changes
                 .Where(c => c.ChangeType == ChangeType.Added)
-                .Select(c => new Staff() { Name = c.Item.Name, Position = c.Item.Position });
+                .Select(c => new Staff() { Name = c.Item.Name, Position = c.Item.Position, Department = c.Item.Department });
             foreach (Staff entity in newEntities)
                 StaffRepository.Create(entity);
 
@@ -46,7 +46,7 @@ namespace Passificator
 
                 foreach (var c in changedEntities)
                 {
-                StaffRepository.Update(new Staff() { Id = c.Id, Name = c.Name, Position = c.Position });
+                StaffRepository.Update(new Staff() { Id = c.Id, Name = c.Name, Position = c.Position, Department = c.Department });
                 }
 
             _people.ClearChanges();
@@ -62,7 +62,7 @@ namespace Passificator
             _people.Clear();
             
                 var administrators = from a in StaffRepository.GetStaffList()
-                select new StaffViewModel() { Id = a.Id, Name = a.Name, Position = a.Position };
+                select new StaffViewModel() { Id = a.Id, Name = a.Name, Position = a.Position, Department = a.Department};
 
                 foreach (var administrator in administrators.ToList())
                 {

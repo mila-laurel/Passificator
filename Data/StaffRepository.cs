@@ -57,6 +57,7 @@ namespace Passificator.Data
                 var entity = context.Administrators.Find(staff.Id);
                 entity.Name = staff.Name;
                 entity.Position = staff.Position;
+                entity.Department = staff.Department;
                 context.SaveChanges();
             }
         }

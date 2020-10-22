@@ -119,7 +119,7 @@ namespace Passificator
                     GuestName = guestsDataGrid.Rows[i].Cells[1].Value.ToString(), 
                     GuestCompany = guestsDataGrid.Rows[i].Cells[2].Value.ToString(), 
                     GuestDocument = guestsDataGrid.Rows[i].Cells[3].Value.ToString(),
-                    GuestCar = guestsDataGrid.Rows[i].Cells[4].Value.ToString()
+                    GuestCar = (guestsDataGrid.Rows[i].Cells[4].Value != null)? guestsDataGrid.Rows[i].Cells[4].Value.ToString() : ""
                 });
             }
             // collect all required data and return dto
