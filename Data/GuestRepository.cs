@@ -33,11 +33,11 @@ namespace Passificator.Data
             }
         }
 
-        public static void Delete(Guest staff)
+        public static void Delete(Guest guest)
         {
             using (var context = new DatabaseContext())
             {
-                context.Guests.Remove(staff);
+                context.Guests.Remove(guest);
                 context.SaveChanges();
             }
         }
@@ -59,6 +59,7 @@ namespace Passificator.Data
                 entity.Name = guest.Name;
                 entity.Company = guest.Company;
                 entity.Document = guest.Document;
+                entity.Car = guest.Car;
                 context.SaveChanges();
             }
         }

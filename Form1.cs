@@ -75,6 +75,13 @@ namespace Passificator
 
         private void generateButton_Click(object sender, EventArgs e)
         {
+            var idToDelete = _people.Changes
+              .Where(c => c.ChangeType == ChangeType.Removed)
+              .Where(c => c.Item.Id > 0)
+              .Select(c => c.Item.Id);
+            foreach (int id in idToDelete)
+                GuestRepository.Delete(id);
+
             var newEntities = _people.Changes
                .Where(c => c.ChangeType == ChangeType.Added)
                .Select(c => new Guest() { Name = c.Item.Name, Company = c.Item.Company, Document = c.Item.Document, Car = c.Item.Car });
