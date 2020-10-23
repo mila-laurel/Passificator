@@ -28,7 +28,9 @@ namespace Passificator
 
             for (int i = 0; i < _context.Guests.Count(); i++)
             {
-                CreateTable(wordApplication, _context.Guests[i], i + 2);
+                if (i > 0)
+                    wordApplication.ActiveDocument.Tables[2].Rows.Add(wordApplication.ActiveDocument.Tables[2].Rows[2]);
+                FillTableRow(wordApplication, _context.Guests[i]);
             }
 
             GenerateSignature(wordApplication, _context);
@@ -36,19 +38,8 @@ namespace Passificator
 
         private void GenerateHeader(Application wordApplication, NoteContextDTO noteContextDTO)
         {
-            Range range = wordApplication.ActiveDocument.Content;
-            range.Find.ClearFormatting();
-            if (range.Find.Execute(FindText: "{ToWhom}"))
-                range.Text = noteContextDTO.AdresseePosition + " " + ShowInitialsAndLastName(noteContextDTO.Adressee) + "у";
-            else
-                throw new Exception();
-
-            range = wordApplication.ActiveDocument.Content;
-            range.Find.ClearFormatting();
-            if (range.Find.Execute(FindText: "{From}"))
-                range.Text = noteContextDTO.SenderPosition + " " + ShowInitialsAndLastName(noteContextDTO.Sender) + "а";
-            else
-                throw new Exception();
+            FillPlaceholders(wordApplication, "{ToWhom}", noteContextDTO.AdresseePosition + " " + ShowInitialsAndLastName(noteContextDTO.Adressee) + "у");
+            FillPlaceholders(wordApplication, "{From}", noteContextDTO.SenderPosition + " " + ShowInitialsAndLastName(noteContextDTO.Sender) + "а");
         }
 
         private string ShowInitialsAndLastName(string name)
@@ -59,63 +50,51 @@ namespace Passificator
 
         private void GenerateAppeal(Application wordApplication, NoteContextDTO noteContextDTO)
         {
-            Range range = wordApplication.ActiveDocument.Content;
-            range.Find.ClearFormatting();
-            if (range.Find.Execute(FindText: "{Appeal}"))
-            {
-                string[] splittedName = noteContextDTO.Adressee.Split(' ');
-                range.Text = splittedName[1] + " " + splittedName[2];
-            }
-            else
-                throw new Exception();
+            string[] splittedName = noteContextDTO.Adressee.Split(' ');
+            string content = splittedName[1] + " " + splittedName[2];
+            FillPlaceholders(wordApplication, "{Appeal}", content);
         }
 
         private void GenerateReason(Application wordApplication, NoteContextDTO noteContextDTO)
         {
-            Range range = wordApplication.ActiveDocument.Content;
-            range.Find.ClearFormatting();
-            if (range.Find.Execute(FindText: "{Reason}"))
-                range.Text = noteContextDTO.Reason;
-            else
-                throw new Exception();
+            FillPlaceholders(wordApplication, "{Reason}", noteContextDTO.Reason);
         }
 
         private void GenerateSignature(Application wordApplication, NoteContextDTO noteContextDTO)
         {
+            FillPlaceholders(wordApplication, "{SenderPosition}", noteContextDTO.SenderPosition);
+            FillPlaceholders(wordApplication, "{SenderName}", ShowInitialsAndLastName(noteContextDTO.Sender));
+        }
+
+        private void FillPlaceholders(Application wordApplication, string placeholder, string content)
+        {
             Range range = wordApplication.ActiveDocument.Content;
             range.Find.ClearFormatting();
-            if (range.Find.Execute(FindText: "{SenderPosition}"))
-                range.Text = noteContextDTO.SenderPosition;
-            else
-                throw new Exception();
-
-            range = wordApplication.ActiveDocument.Content;
-            range.Find.ClearFormatting();
-            if (range.Find.Execute(FindText: "{SenderName}"))
-                range.Text = ShowInitialsAndLastName(noteContextDTO.Sender);
+            if (range.Find.Execute(FindText: placeholder))
+                range.Text = content;
             else
                 throw new Exception();
         }
 
-        public void CreateTable(Application wordApplication, GuestDto guestDto, int orderNumber)
+        public void FillTableRow(Application wordApplication, GuestDto guestDto)
         {
-            wordApplication.ActiveDocument.Tables[2].Rows.Add(wordApplication.ActiveDocument.Tables[2].Rows[orderNumber]);
-            Cell cell = wordApplication.ActiveDocument.Tables[2].Cell(orderNumber, 1);
+
+            Cell cell = wordApplication.ActiveDocument.Tables[2].Cell(2, 1);
             if (_context.SeveralDaysVisit)
                 cell.Range.Text = _context.DateOfVisitFrom.Date.ToString("d") + "-" + _context.DateOfVisitTo.Date.ToString("d") + " " + _context.TimeOfVisit;
             else
                 cell.Range.Text = _context.DateOfVisit.ToString("d") + " " + _context.TimeOfVisit; ;
-            cell = wordApplication.ActiveDocument.Tables[2].Cell(orderNumber, 2);
+            cell = wordApplication.ActiveDocument.Tables[2].Cell(2, 2);
             cell.Range.Text = guestDto.GuestName;
-            cell = wordApplication.ActiveDocument.Tables[2].Cell(orderNumber, 3);
+            cell = wordApplication.ActiveDocument.Tables[2].Cell(2, 3);
             cell.Range.Text = ShowInitialsAndLastName(_context.PersonAndDepartmentToVisit) + ", " + _context.SenderDepartment;
-            cell = wordApplication.ActiveDocument.Tables[2].Cell(orderNumber, 4);
+            cell = wordApplication.ActiveDocument.Tables[2].Cell(2, 4);
             cell.Range.Text = guestDto.GuestCompany;
-            cell = wordApplication.ActiveDocument.Tables[2].Cell(orderNumber, 5);
+            cell = wordApplication.ActiveDocument.Tables[2].Cell(2, 5);
             cell.Range.Text = guestDto.GuestDocument;
-            cell = wordApplication.ActiveDocument.Tables[2].Cell(orderNumber, 6);
+            cell = wordApplication.ActiveDocument.Tables[2].Cell(2, 6);
             cell.Range.Text = guestDto.GuestCar;
-            cell = wordApplication.ActiveDocument.Tables[2].Cell(orderNumber, 7);
+            cell = wordApplication.ActiveDocument.Tables[2].Cell(2, 7);
             cell.Range.Text = ShowInitialsAndLastName(_context.Escort);
         }
     }

@@ -24,29 +24,55 @@ namespace Passificator
         {
             var wordApplication = new Application { Visible = true };
             wordApplication.Documents.Add(path);
-            GenerateDates(wordApplication, _context);
-            GenerateGuestInformation(wordApplication, _context, _context.Guests[0]);
-            for (int i = 1; i < _context.Guests.Count() - 1; i++)
+            Range table = wordApplication.ActiveDocument.Tables[wordApplication.ActiveDocument.Tables.Count].Range;
+            table.Copy();
+            for (int i = 0; i < _context.Guests.Count(); i++)
             {
-                CreateTable(wordApplication, _context.Guests[i], i + 2);
+                if (i > 0)
+                    CreateTable(table);
                 GenerateDates(wordApplication, _context);
                 GenerateGuestInformation(wordApplication, _context, _context.Guests[i]);
             }
         }
 
-        private void CreateTable(Application wordApplication, GuestDto guestDto, int v)
+        private void CreateTable(Range table)
         {
-            throw new NotImplementedException();
+                table.Collapse(WdCollapseDirection.wdCollapseEnd);
+                table.Paste();
         }
 
-        private void GenerateGuestInformation(Application wordApplication, NoteContextDTO context, GuestDto guestDto)
+        private void GenerateGuestInformation(Application wordApplication, NoteContextDTO noteContextDTO, GuestDto guestDto)
         {
-            throw new NotImplementedException();
+            FillPlaceholders(wordApplication, "{LastName}", guestDto.GuestName.Split(' ')[0]);
+            FillPlaceholders(wordApplication, "{Name}", guestDto.GuestName.Split(' ')[1]);
+            FillPlaceholders(wordApplication, "{Patronymic}", guestDto.GuestName.Split(' ')[2]);
+            FillPlaceholders(wordApplication, "{Document}", guestDto.GuestDocument);
+            FillPlaceholders(wordApplication, "{PersonToVisit}", noteContextDTO.PersonAndDepartmentToVisit);
+            FillPlaceholders(wordApplication, "{DepartmentToVisit}", noteContextDTO.SenderDepartment);
+            if (guestDto.GuestCar.Split(' ').Length > 1 && guestDto.GuestCar.Split(' ')[0].Length > 3)
+            {
+                FillPlaceholders(wordApplication, "{Car}", guestDto.GuestCar.Split(' ')[0]);
+                FillPlaceholders(wordApplication, "{CarNumber}", guestDto.GuestCar.Substring(guestDto.GuestCar.IndexOf(' ')));
+            }
+            else
+            {
+                FillPlaceholders(wordApplication, "{Car}", guestDto.GuestCar);
+                FillPlaceholders(wordApplication, "{CarNumber}", "");
+            }
+
         }
 
-        private void GenerateDates(Application wordApplication, NoteContextDTO context)
+        private void GenerateDates(Application wordApplication, NoteContextDTO noteContextDTO)
         {
-            throw new NotImplementedException();
+            FillPlaceholders(wordApplication, "{DateFrom}", noteContextDTO.SeveralDaysVisit ? noteContextDTO.DateOfVisitFrom.ToString("d") : noteContextDTO.DateOfVisit.ToString("d"));
+            FillPlaceholders(wordApplication, "{DateTo}", noteContextDTO.SeveralDaysVisit ? noteContextDTO.DateOfVisitTo.ToString("d") : noteContextDTO.DateOfVisit.ToString("d"));
+        }
+
+        private void FillPlaceholders(Application wordApplication, string placeholder, string content)
+        {
+            Range range = wordApplication.ActiveDocument.Tables[wordApplication.ActiveDocument.Tables.Count].Range;
+            range.Find.ClearFormatting();
+            range.Find.Execute(FindText: placeholder, ReplaceWith: content, Replace: WdReplace.wdReplaceAll);
         }
     }
 }

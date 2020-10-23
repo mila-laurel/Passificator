@@ -39,6 +39,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.timeOfVisitTextBox = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.toWhomTextBox = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.escortTextBox = new System.Windows.Forms.TextBox();
@@ -55,8 +57,6 @@
             this.addGuestButton = new System.Windows.Forms.Button();
             this.guestNameComboBox = new System.Windows.Forms.ComboBox();
             this.generateButton = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.timeOfVisitTextBox = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.guestsDataGrid)).BeginInit();
@@ -181,6 +181,23 @@
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Visit";
+            // 
+            // timeOfVisitTextBox
+            // 
+            this.timeOfVisitTextBox.Location = new System.Drawing.Point(97, 99);
+            this.timeOfVisitTextBox.Name = "timeOfVisitTextBox";
+            this.timeOfVisitTextBox.Size = new System.Drawing.Size(100, 20);
+            this.timeOfVisitTextBox.TabIndex = 10;
+            this.timeOfVisitTextBox.Text = "09:00-18:00";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(17, 104);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(40, 13);
+            this.label9.TabIndex = 9;
+            this.label9.Text = "Время";
             // 
             // toWhomTextBox
             // 
@@ -315,12 +332,13 @@
             // 
             // guestNameComboBox
             // 
+            this.guestNameComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.guestNameComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.guestNameComboBox.FormattingEnabled = true;
             this.guestNameComboBox.Location = new System.Drawing.Point(6, 19);
             this.guestNameComboBox.Name = "guestNameComboBox";
             this.guestNameComboBox.Size = new System.Drawing.Size(445, 21);
             this.guestNameComboBox.TabIndex = 1;
-            this.guestNameComboBox.TextChanged += new System.EventHandler(this.guestNameComboBox_TextChanged);
             // 
             // generateButton
             // 
@@ -331,23 +349,6 @@
             this.generateButton.Text = "Генерировать";
             this.generateButton.UseVisualStyleBackColor = true;
             this.generateButton.Click += new System.EventHandler(this.generateButton_Click);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(17, 104);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(40, 13);
-            this.label9.TabIndex = 9;
-            this.label9.Text = "Время";
-            // 
-            // timeOfVisitTextBox
-            // 
-            this.timeOfVisitTextBox.Location = new System.Drawing.Point(97, 99);
-            this.timeOfVisitTextBox.Name = "timeOfVisitTextBox";
-            this.timeOfVisitTextBox.Size = new System.Drawing.Size(100, 20);
-            this.timeOfVisitTextBox.TabIndex = 10;
-            this.timeOfVisitTextBox.Text = "09:00-18:00";
             // 
             // Form1
             // 

@@ -19,6 +19,7 @@ namespace Passificator
 
             FillDropDownList(addresseeNameComboBox);
             FillDropDownList(senderNameComboBox);
+            guestNameComboBox.Items.AddRange(GuestRepository.GetGuestList().Select(guest => guest.Name).ToArray());
         }
         private void editStaffButton_Click(object sender, EventArgs e)
         {
@@ -94,6 +95,8 @@ namespace Passificator
             var context = GetNoteContext();
             var noteGenerator = new NoteGenerator(context);
             noteGenerator.Generate();
+            var passGenerator = new PassGenerator(context);
+            passGenerator.Generate();
         }
 
         private NoteContextDTO GetNoteContext()
@@ -150,7 +153,27 @@ namespace Passificator
             _people.ClearChanges();
         }
 
-        private void guestNameComboBox_TextChanged(object sender, EventArgs e)
+        //private void guestNameComboBox_TextChanged(object sender, EventArgs e)
+        //{
+        //    if (guestNameComboBox.Text.Length > 3)
+        //    {
+        //        var guestsNames = (from a in GuestRepository.GetGuestList()
+        //                           where a.Name.Contains(guestNameComboBox.Text)
+        //                           select a.Name).ToArray();
+        //        if (guestsNames.Any())
+        //        {
+        //            guestNameComboBox.Items.AddRange(guestsNames);
+        //            guestNameComboBox.DroppedDown = true;
+        //        }
+        //    }
+        //}
+
+        private void addGuestButton_Click(object sender, EventArgs e)
+        {
+            UpdateData(guestNameComboBox.Text);
+        }
+
+        private void guestNameComboBox_TextUpdate(object sender, EventArgs e)
         {
             if (guestNameComboBox.Text.Length > 3)
             {
@@ -159,17 +182,10 @@ namespace Passificator
                                    select a.Name).ToArray();
                 if (guestsNames.Any())
                 {
-                    if (guestNameComboBox.Items.Count > 0)
-                        guestNameComboBox.Items.Clear();
                     guestNameComboBox.Items.AddRange(guestsNames);
                     guestNameComboBox.DroppedDown = true;
                 }
             }
-        }
-
-        private void addGuestButton_Click(object sender, EventArgs e)
-        {
-            UpdateData(guestNameComboBox.Text);
         }
     }
 }
