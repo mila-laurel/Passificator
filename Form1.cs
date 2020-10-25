@@ -19,8 +19,18 @@ namespace Passificator
 
             FillDropDownList(addresseeNameComboBox);
             FillDropDownList(senderNameComboBox);
-            guestNameComboBox.Items.AddRange(GuestRepository.GetGuestList().Select(guest => guest.Name).ToArray());
+            guestNameComboBox.Items.AddRange(GuestRepository.GetGuestList().ToArray());
+
+            InitializeDatagridSource();
         }
+
+        private void InitializeDatagridSource()
+        {
+            guestsDataGrid.DataSource = _people;
+            guestsDataGrid.Columns[0].Visible = false;
+            guestsDataGrid.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        }
+
         private void editStaffButton_Click(object sender, EventArgs e)
         {
             var editorForm = new StaffEditorForm();
@@ -75,13 +85,6 @@ namespace Passificator
 
         private void generateButton_Click(object sender, EventArgs e)
         {
-            var idToDelete = _people.Changes
-              .Where(c => c.ChangeType == ChangeType.Removed)
-              .Where(c => c.Item.Id > 0)
-              .Select(c => c.Item.Id);
-            foreach (int id in idToDelete)
-                GuestRepository.Delete(id);
-
             var newEntities = _people.Changes
                .Where(c => c.ChangeType == ChangeType.Added)
                .Select(c => new Guest() { Name = c.Item.Name, Company = c.Item.Company, Document = c.Item.Document, Car = c.Item.Car });
@@ -136,48 +139,29 @@ namespace Passificator
             return context;
         }
 
-        private void UpdateData(string selectedGuest)
+        private void AddExistingGuest(Guest selectedGuest)
         {
-            var guests = (from a in GuestRepository.GetGuestList()
-                          where a.Name.Equals(selectedGuest)
-                          select new GuestViewModel() { Id = a.Id, Name = a.Name, Company = a.Company, Document = a.Document, Car = a.Car }).ToList();
-            if (guests.Any())
-            {
-                foreach (var guest in guests)
-                {
-                    guest.ResetDirty();
-                    _people.Add(guest);
-                }
-            }
-            else
-            {
-                _people.Add(new GuestViewModel() { Name = selectedGuest });
-            }
-
-            guestsDataGrid.DataSource = _people;
-            guestsDataGrid.Columns[0].Visible = false;
-            guestsDataGrid.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            _people.ClearChanges();
+            if (selectedGuest == null)
+                return;
+            _people.Add(new GuestViewModel() { 
+                Id = selectedGuest.Id, 
+                Name = selectedGuest.Name, 
+                Company = selectedGuest.Company, 
+                Document = selectedGuest.Document, 
+                Car = selectedGuest.Car });
         }
-
-        //private void guestNameComboBox_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (guestNameComboBox.Text.Length > 3)
-        //    {
-        //        var guestsNames = (from a in GuestRepository.GetGuestList()
-        //                           where a.Name.Contains(guestNameComboBox.Text)
-        //                           select a.Name).ToArray();
-        //        if (guestsNames.Any())
-        //        {
-        //            guestNameComboBox.Items.AddRange(guestsNames);
-        //            guestNameComboBox.DroppedDown = true;
-        //        }
-        //    }
-        //}
 
         private void addGuestButton_Click(object sender, EventArgs e)
         {
-            UpdateData(guestNameComboBox.Text);
+            if (guestNameComboBox.SelectedItem as Guest == null)
+                AddNewGuest(guestNameComboBox.Text);
+            else
+                AddExistingGuest(guestNameComboBox.SelectedItem as Guest);
+        }
+
+        private void AddNewGuest(string name)
+        {
+            _people.Add(new GuestViewModel() { Name = name });
         }
 
         private void guestNameComboBox_TextUpdate(object sender, EventArgs e)

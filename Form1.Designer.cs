@@ -302,6 +302,7 @@
             // 
             // guestsDataGrid
             // 
+            this.guestsDataGrid.AllowUserToAddRows = false;
             this.guestsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.guestsDataGrid.Location = new System.Drawing.Point(6, 46);
             this.guestsDataGrid.Name = "guestsDataGrid";
@@ -334,6 +335,7 @@
             // 
             this.guestNameComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.guestNameComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.guestNameComboBox.DisplayMember = "Name";
             this.guestNameComboBox.FormattingEnabled = true;
             this.guestNameComboBox.Location = new System.Drawing.Point(6, 19);
             this.guestNameComboBox.Name = "guestNameComboBox";
