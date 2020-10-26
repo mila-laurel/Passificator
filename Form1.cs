@@ -58,27 +58,27 @@ namespace Passificator
             }
         }
 
-        private void FillDropDownList(ComboBox DropDownName)
+        private void FillDropDownList(ComboBox dropDownName)
         {
-            DropDownName.Items.Clear();
+            dropDownName.Items.Clear();
 
             foreach (var administrator in StaffRepository.GetStaffList())
             {
-                DropDownName.Items.Add(administrator);
+                dropDownName.Items.Add(administrator);
             }
-            DropDownName.ValueMember = "Id";
-            DropDownName.DisplayMember = "Name";
+            dropDownName.ValueMember = "Id";
+            dropDownName.DisplayMember = "Name";
         }
 
         private void addresseeNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Staff chosen = (Staff)addresseeNameComboBox.SelectedItem;
+            var chosen = (Staff)addresseeNameComboBox.SelectedItem;
             addresseePositionTextBox.Text = chosen.Position;
         }
 
         private void senderNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Staff chosen = (Staff)senderNameComboBox.SelectedItem;
+            var chosen = (Staff)senderNameComboBox.SelectedItem;
             senderPositionTextBox.Text = chosen.Position;
             toWhomTextBox.Text = chosen.Name;
             escortTextBox.Text = chosen.Name;
@@ -86,20 +86,7 @@ namespace Passificator
 
         private void generateButton_Click(object sender, EventArgs e)
         {
-            var newEntities = _people.Changes
-               .Where(c => c.ChangeType == ChangeType.Added)
-               .Select(c => new Guest() { Name = c.Item.Name, Company = c.Item.Company, Document = c.Item.Document, Car = c.Item.Car });
-            foreach (Guest entity in newEntities)
-                GuestRepository.Create(entity);
-
-            var changedEntities = _people
-                    .Where(x => x.IsDirty() && x.Id > 0)
-                    .ToList();
-
-            foreach (var c in changedEntities)
-            {
-                GuestRepository.Update(new Guest() { Id = c.Id, Name = c.Name, Company = c.Company, Document = c.Document, Car = c.Car });
-            }
+            SaveGuestUpdates();
 
             var context = GetNoteContext();
             var noteGenerator = new NoteGenerator(context);
@@ -108,23 +95,51 @@ namespace Passificator
             passGenerator.Generate();
         }
 
+        private void SaveGuestUpdates()
+        {
+            var newGuests = _people
+                .Where(p => p.Id < 0);
+
+            foreach (var guest in newGuests)
+            {
+                var entity = new Guest() {Name = guest.Name, Company = guest.Company, Document = guest.Document, Car = guest.Car};
+                var id = GuestRepository.Create(entity);
+                guest.Id = id;
+            }
+                
+
+            var changedEntities = _people
+                .Where(x => x.IsDirty() && x.Id > 0)
+                .ToList();
+
+            foreach (var c in changedEntities)
+            {
+                GuestRepository.Update(new Guest()
+                    {Id = c.Id, Name = c.Name, Company = c.Company, Document = c.Document, Car = c.Car});
+                c.ResetDirty();
+            }
+        }
+
         private NoteContextDTO GetNoteContext()
         {
-            NoteContextDTO context = new NoteContextDTO();
-            context.Adressee = addresseeNameComboBox.Text;
-            context.AdresseePosition = addresseePositionTextBox.Text;
-            context.Sender = senderNameComboBox.Text;
-            context.SenderPosition = senderPositionTextBox.Text;
-            context.SeveralDaysVisit = multipleDaysVisitRadioButton.Enabled ? true : false;
-            context.DateOfVisit = visitDatePicker.Value;
-            context.DateOfVisitFrom = visitDateFromPicker.Value;
-            context.DateOfVisitTo = visitDateToPicker.Value;
-            context.TimeOfVisit = timeOfVisitTextBox.Text;
-            context.Reason = reasonTextBox.Text;
-            context.Escort = escortTextBox.Text;
-            context.PersonAndDepartmentToVisit = toWhomTextBox.Text;
-            context.SenderDepartment = ((Staff)senderNameComboBox.SelectedItem).Department;
-            context.Guests = new List<GuestDto>();
+            var context = new NoteContextDTO
+            {
+                Adressee = addresseeNameComboBox.Text,
+                AdresseePosition = addresseePositionTextBox.Text,
+                Sender = senderNameComboBox.Text,
+                SenderPosition = senderPositionTextBox.Text,
+                SeveralDaysVisit = multipleDaysVisitRadioButton.Enabled,
+                DateOfVisit = visitDatePicker.Value,
+                DateOfVisitFrom = visitDateFromPicker.Value,
+                DateOfVisitTo = visitDateToPicker.Value,
+                TimeOfVisit = timeOfVisitTextBox.Text,
+                Reason = reasonTextBox.Text,
+                Escort = escortTextBox.Text,
+                PersonAndDepartmentToVisit = toWhomTextBox.Text,
+                SenderDepartment = ((Staff) senderNameComboBox.SelectedItem).Department,
+                Guests = new List<GuestDto>()
+            };
+
             for (int i = 0; i < guestsDataGrid.Rows.Count; i++)
             {
                 context.Guests.Add(new GuestDto() { 
@@ -142,7 +157,7 @@ namespace Passificator
         {
             if (selectedGuest == null)
                 return;
-            GuestViewModel guestViewModel = new GuestViewModel()
+            var guestViewModel = new GuestViewModel()
             {
                 Id = selectedGuest.Id,
                 Name = selectedGuest.Name,
@@ -150,17 +165,19 @@ namespace Passificator
                 Document = selectedGuest.Document,
                 Car = selectedGuest.Car
             };
+
             _people.Add(guestViewModel);
             guestViewModel.ResetDirty();
-            _people.ClearChanges();
         }
 
         private void addGuestButton_Click(object sender, EventArgs e)
         {
-            if (guestNameComboBox.SelectedItem as Guest == null)
-                AddNewGuest(guestNameComboBox.Text);
+            if (guestNameComboBox.SelectedItem is Guest guest)
+                AddExistingGuest(guest);
             else
-                AddExistingGuest(guestNameComboBox.SelectedItem as Guest);
+                AddNewGuest(guestNameComboBox.Text);
+
+            guestNameComboBox.Text = "";
         }
 
         private void AddNewGuest(string name)

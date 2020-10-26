@@ -3,21 +3,12 @@
     class GuestViewModel
     {
         private bool _isDirty;
-        private int _id = -1;
         private string _name;
         private string _company;
         private string _document;
         private string _car;
-        
-        public int Id
-        {
-            get => _id;
-            set
-            {
-                _isDirty = true;
-                _id = value;
-            }
-        }
+
+        public int Id { get; set; } = -1;
 
         public string Name
         {

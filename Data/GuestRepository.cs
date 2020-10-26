@@ -24,12 +24,13 @@ namespace Passificator.Data
             return found.First();
         }
 
-        public static void Create(Guest newGuest)
+        public static int Create(Guest newGuest)
         {
             using (var context = new DatabaseContext())
             {
-                context.Guests.Add(newGuest);
+                var guest = context.Guests.Add(newGuest);
                 context.SaveChanges();
+                return guest.Id;
             }
         }
 
