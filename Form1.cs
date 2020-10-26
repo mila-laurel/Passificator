@@ -26,6 +26,7 @@ namespace Passificator
 
         private void InitializeDatagridSource()
         {
+            _people.ClearChanges();
             guestsDataGrid.DataSource = _people;
             guestsDataGrid.Columns[0].Visible = false;
             guestsDataGrid.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -100,8 +101,6 @@ namespace Passificator
                 GuestRepository.Update(new Guest() { Id = c.Id, Name = c.Name, Company = c.Company, Document = c.Document, Car = c.Car });
             }
 
-            _people.ClearChanges();
-
             var context = GetNoteContext();
             var noteGenerator = new NoteGenerator(context);
             noteGenerator.Generate();
@@ -126,7 +125,7 @@ namespace Passificator
             context.PersonAndDepartmentToVisit = toWhomTextBox.Text;
             context.SenderDepartment = ((Staff)senderNameComboBox.SelectedItem).Department;
             context.Guests = new List<GuestDto>();
-            for (int i = 0; i < guestsDataGrid.Rows.Count-1; i++)
+            for (int i = 0; i < guestsDataGrid.Rows.Count; i++)
             {
                 context.Guests.Add(new GuestDto() { 
                     GuestName = guestsDataGrid.Rows[i].Cells[1].Value.ToString(), 
@@ -143,12 +142,17 @@ namespace Passificator
         {
             if (selectedGuest == null)
                 return;
-            _people.Add(new GuestViewModel() { 
-                Id = selectedGuest.Id, 
-                Name = selectedGuest.Name, 
-                Company = selectedGuest.Company, 
-                Document = selectedGuest.Document, 
-                Car = selectedGuest.Car });
+            GuestViewModel guestViewModel = new GuestViewModel()
+            {
+                Id = selectedGuest.Id,
+                Name = selectedGuest.Name,
+                Company = selectedGuest.Company,
+                Document = selectedGuest.Document,
+                Car = selectedGuest.Car
+            };
+            _people.Add(guestViewModel);
+            guestViewModel.ResetDirty();
+            _people.ClearChanges();
         }
 
         private void addGuestButton_Click(object sender, EventArgs e)
@@ -161,22 +165,7 @@ namespace Passificator
 
         private void AddNewGuest(string name)
         {
-            _people.Add(new GuestViewModel() { Name = name });
-        }
-
-        private void guestNameComboBox_TextUpdate(object sender, EventArgs e)
-        {
-            if (guestNameComboBox.Text.Length > 3)
-            {
-                var guestsNames = (from a in GuestRepository.GetGuestList()
-                                   where a.Name.Contains(guestNameComboBox.Text)
-                                   select a.Name).ToArray();
-                if (guestsNames.Any())
-                {
-                    guestNameComboBox.Items.AddRange(guestsNames);
-                    guestNameComboBox.DroppedDown = true;
-                }
-            }
+            _people.Add(new GuestViewModel() { Name = name});
         }
     }
 }

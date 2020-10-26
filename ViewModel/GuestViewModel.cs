@@ -8,8 +8,7 @@
         private string _company;
         private string _document;
         private string _car;
-        private bool _isNew;
-
+        
         public int Id
         {
             get => _id;
@@ -60,7 +59,6 @@
             }
         }
 
-        public bool IsNew() => _isNew;
         public bool IsDirty() => _isDirty;
         public void ResetDirty() => _isDirty = false;
     }

@@ -38,8 +38,23 @@ namespace Passificator
 
         private void GenerateHeader(Application wordApplication, NoteContextDTO noteContextDTO)
         {
-            FillPlaceholders(wordApplication, "{ToWhom}", noteContextDTO.AdresseePosition + " " + ShowInitialsAndLastName(noteContextDTO.Adressee) + "у");
-            FillPlaceholders(wordApplication, "{From}", noteContextDTO.SenderPosition + " " + ShowInitialsAndLastName(noteContextDTO.Sender) + "а");
+            FillPlaceholders(wordApplication, "{ToWhom}", PutRightEnding(noteContextDTO.AdresseePosition, "{ToWhom}") + " " + ShowInitialsAndLastName(noteContextDTO.Adressee) + "у");
+            FillPlaceholders(wordApplication, "{From}", PutRightEnding(noteContextDTO.SenderPosition, "{From}") + " " + ShowInitialsAndLastName(noteContextDTO.Sender) + "а");
+        }
+        private string PutRightEnding(string positon, string placeholder)
+        {
+            string ending;
+            string[] splittedPosition = positon.Split(' ');
+            if (splittedPosition[0].EndsWith("ь"))
+            {
+                ending = (placeholder == "{ToWhom}") ? "ю" : "я";
+                return splittedPosition[0].TrimEnd('ь') + ending + " " + String.Join(" ", splittedPosition.Skip(1));
+            }
+            else
+            {
+                ending = (placeholder == "{ToWhom}") ? "у" : "а";
+                return splittedPosition[0] + ending + " " + String.Join(" ", splittedPosition.Skip(1));
+            }
         }
 
         private string ShowInitialsAndLastName(string name)
