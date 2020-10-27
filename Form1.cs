@@ -19,12 +19,14 @@ namespace Passificator
 
             FillDropDownList(addresseeNameComboBox);
             FillDropDownList(senderNameComboBox);
-            guestNameComboBox.Items.AddRange(GuestRepository.GetGuestList().ToArray());
+            List<Guest> list = new List<Guest>();
+            foreach (var guest in GuestRepository.GetGuestList())
+                guestNameComboBox.Items.Add(guest);
 
-            InitializeDatagridSource();
+            InitializeDataGridSource();
         }
 
-        private void InitializeDatagridSource()
+        private void InitializeDataGridSource()
         {
             _people.ClearChanges();
             guestsDataGrid.DataSource = _people;
@@ -74,6 +76,8 @@ namespace Passificator
         {
             var chosen = (Staff)addresseeNameComboBox.SelectedItem;
             addresseePositionTextBox.Text = chosen.Position;
+            if (!String.IsNullOrEmpty((senderNameComboBox.Text)))
+                generateButton.Enabled = true;
         }
 
         private void senderNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -82,6 +86,8 @@ namespace Passificator
             senderPositionTextBox.Text = chosen.Position;
             toWhomTextBox.Text = chosen.Name;
             escortTextBox.Text = chosen.Name;
+            if (!String.IsNullOrEmpty((addresseeNameComboBox.Text)))
+                generateButton.Enabled = true;
         }
 
         private void generateButton_Click(object sender, EventArgs e)
@@ -102,11 +108,11 @@ namespace Passificator
 
             foreach (var guest in newGuests)
             {
-                var entity = new Guest() {Name = guest.Name, Company = guest.Company, Document = guest.Document, Car = guest.Car};
+                var entity = new Guest() { Name = guest.Name, Company = guest.Company, Document = guest.Document, Car = guest.Car };
                 var id = GuestRepository.Create(entity);
                 guest.Id = id;
             }
-                
+
 
             var changedEntities = _people
                 .Where(x => x.IsDirty() && x.Id > 0)
@@ -115,14 +121,14 @@ namespace Passificator
             foreach (var c in changedEntities)
             {
                 GuestRepository.Update(new Guest()
-                    {Id = c.Id, Name = c.Name, Company = c.Company, Document = c.Document, Car = c.Car});
+                { Id = c.Id, Name = c.Name, Company = c.Company, Document = c.Document, Car = c.Car });
                 c.ResetDirty();
             }
         }
 
-        private NoteContextDTO GetNoteContext()
+        private NoteContextDto GetNoteContext()
         {
-            var context = new NoteContextDTO
+            var context = new NoteContextDto
             {
                 Adressee = addresseeNameComboBox.Text,
                 AdresseePosition = addresseePositionTextBox.Text,
@@ -136,17 +142,18 @@ namespace Passificator
                 Reason = reasonTextBox.Text,
                 Escort = escortTextBox.Text,
                 PersonAndDepartmentToVisit = toWhomTextBox.Text,
-                SenderDepartment = ((Staff) senderNameComboBox.SelectedItem).Department,
+                SenderDepartment = ((Staff)senderNameComboBox.SelectedItem).Department,
                 Guests = new List<GuestDto>()
             };
 
             for (int i = 0; i < guestsDataGrid.Rows.Count; i++)
             {
-                context.Guests.Add(new GuestDto() { 
-                    GuestName = guestsDataGrid.Rows[i].Cells[1].Value.ToString(), 
-                    GuestCompany = guestsDataGrid.Rows[i].Cells[2].Value.ToString(), 
+                context.Guests.Add(new GuestDto()
+                {
+                    GuestName = guestsDataGrid.Rows[i].Cells[1].Value.ToString(),
+                    GuestCompany = guestsDataGrid.Rows[i].Cells[2].Value.ToString(),
                     GuestDocument = guestsDataGrid.Rows[i].Cells[3].Value.ToString(),
-                    GuestCar = (guestsDataGrid.Rows[i].Cells[4].Value != null)? guestsDataGrid.Rows[i].Cells[4].Value.ToString() : ""
+                    GuestCar = (guestsDataGrid.Rows[i].Cells[4].Value != null) ? guestsDataGrid.Rows[i].Cells[4].Value.ToString() : ""
                 });
             }
             // collect all required data and return dto
@@ -182,7 +189,13 @@ namespace Passificator
 
         private void AddNewGuest(string name)
         {
-            _people.Add(new GuestViewModel() { Name = name});
+            _people.Add(new GuestViewModel() { Name = name });
+        }
+
+        private void guestNameComboBox_TextChanged(object sender, EventArgs e)
+        {
+            if (guestNameComboBox.Text.Split(' ').Length > 1)
+                addGuestButton.Enabled = true;
         }
     }
 }

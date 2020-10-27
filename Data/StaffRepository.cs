@@ -8,12 +8,10 @@ namespace Passificator.Data
     {
         public static IEnumerable<Staff> GetStaffList()
         {
-            using (var context = new DatabaseContext())
-            {
-                var administrators = (from a in context.Administrators
-                                     select a).ToList();
-                return administrators;
-            }
+            using var context = new DatabaseContext();
+            var administrators = (from a in context.Administrators
+                select a).ToList();
+            return administrators;
         }
 
         public static Staff Find(int id)
@@ -24,31 +22,24 @@ namespace Passificator.Data
 
         public static void Create(Staff newStaff)
         {
-            using (var context = new DatabaseContext())
-            {
-                context.Administrators.Add(newStaff);
-                context.SaveChanges();
-            }
+            using var context = new DatabaseContext();
+            context.Administrators.Add(newStaff);
+            context.SaveChanges();
         }
 
         public static void Delete(Staff staff)
         {
-            using (var context = new DatabaseContext())
-            {
-                context.Administrators.Remove(staff);
-                context.SaveChanges();
-            }
+            using var context = new DatabaseContext();
+            context.Administrators.Remove(staff);
+            context.SaveChanges();
         }
 
-        // deleteRange ???
-        public static void Delete(int id)
-        {
-            using (var context = new DatabaseContext())
-            {
-                context.Administrators.Remove(context.Administrators.Find(id));
-                context.SaveChanges();
-            }
-        }
+       public static void Delete(int id)
+       {
+           using var context = new DatabaseContext();
+           context.Administrators.Remove(context.Administrators.Find(id));
+           context.SaveChanges();
+       }
 
         public static void Update(Staff staff)
         {

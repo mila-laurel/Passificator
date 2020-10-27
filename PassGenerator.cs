@@ -11,19 +11,19 @@ namespace Passificator
 {
     class PassGenerator
     {
-        private readonly string path = Path.GetFullPath("templatePass.dot");
+        private readonly string _path = Path.GetFullPath("templatePass.dot");
 
-        private readonly NoteContextDTO _context;
+        private readonly NoteContextDto _context;
 
-        public PassGenerator(NoteContextDTO noteContextDTO)
+        public PassGenerator(NoteContextDto noteContextDto)
         {
-            _context = noteContextDTO;
+            _context = noteContextDto;
         }
 
         public void Generate()
         {
             var wordApplication = new Application { Visible = true };
-            wordApplication.Documents.Add(path);
+            wordApplication.Documents.Add(_path);
             Range table = wordApplication.ActiveDocument.Tables[wordApplication.ActiveDocument.Tables.Count].Range;
             table.Copy();
             for (int i = 0; i < _context.Guests.Count(); i++)
@@ -41,14 +41,14 @@ namespace Passificator
                 table.Paste();
         }
 
-        private void GenerateGuestInformation(Application wordApplication, NoteContextDTO noteContextDTO, GuestDto guestDto)
+        private void GenerateGuestInformation(Application wordApplication, NoteContextDto noteContextDto, GuestDto guestDto)
         {
             FillPlaceholders(wordApplication, "{LastName}", guestDto.GuestName.Split(' ')[0]);
             FillPlaceholders(wordApplication, "{Name}", guestDto.GuestName.Split(' ')[1]);
             FillPlaceholders(wordApplication, "{Patronymic}", guestDto.GuestName.Split(' ')[2]);
             FillPlaceholders(wordApplication, "{Document}", guestDto.GuestDocument);
-            FillPlaceholders(wordApplication, "{PersonToVisit}", noteContextDTO.PersonAndDepartmentToVisit);
-            FillPlaceholders(wordApplication, "{DepartmentToVisit}", noteContextDTO.SenderDepartment);
+            FillPlaceholders(wordApplication, "{PersonToVisit}", noteContextDto.PersonAndDepartmentToVisit);
+            FillPlaceholders(wordApplication, "{DepartmentToVisit}", noteContextDto.SenderDepartment);
             if (guestDto.GuestCar.Split(' ').Length > 1 && guestDto.GuestCar.Split(' ')[0].Length > 3)
             {
                 FillPlaceholders(wordApplication, "{Car}", guestDto.GuestCar.Split(' ')[0]);
@@ -62,10 +62,10 @@ namespace Passificator
 
         }
 
-        private void GenerateDates(Application wordApplication, NoteContextDTO noteContextDTO)
+        private void GenerateDates(Application wordApplication, NoteContextDto noteContextDto)
         {
-            FillPlaceholders(wordApplication, "{DateFrom}", noteContextDTO.SeveralDaysVisit ? noteContextDTO.DateOfVisitFrom.ToString("d") : noteContextDTO.DateOfVisit.ToString("d"));
-            FillPlaceholders(wordApplication, "{DateTo}", noteContextDTO.SeveralDaysVisit ? noteContextDTO.DateOfVisitTo.ToString("d") : noteContextDTO.DateOfVisit.ToString("d"));
+            FillPlaceholders(wordApplication, "{DateFrom}", noteContextDto.SeveralDaysVisit ? noteContextDto.DateOfVisitFrom.ToString("d") : noteContextDto.DateOfVisit.ToString("d"));
+            FillPlaceholders(wordApplication, "{DateTo}", noteContextDto.SeveralDaysVisit ? noteContextDto.DateOfVisitTo.ToString("d") : noteContextDto.DateOfVisit.ToString("d"));
         }
 
         private void FillPlaceholders(Application wordApplication, string placeholder, string content)

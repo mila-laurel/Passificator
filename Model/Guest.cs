@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Passificator
+namespace Passificator.Model
 {
     [Table("Guests")]
     internal class Guest

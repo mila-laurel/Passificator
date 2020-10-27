@@ -323,6 +323,7 @@
             // 
             // addGuestButton
             // 
+            this.addGuestButton.Enabled = false;
             this.addGuestButton.Location = new System.Drawing.Point(458, 19);
             this.addGuestButton.Name = "addGuestButton";
             this.addGuestButton.Size = new System.Drawing.Size(85, 23);
@@ -341,9 +342,11 @@
             this.guestNameComboBox.Name = "guestNameComboBox";
             this.guestNameComboBox.Size = new System.Drawing.Size(445, 21);
             this.guestNameComboBox.TabIndex = 1;
+            this.guestNameComboBox.TextChanged += new System.EventHandler(this.guestNameComboBox_TextChanged);
             // 
             // generateButton
             // 
+            this.generateButton.Enabled = false;
             this.generateButton.Location = new System.Drawing.Point(12, 588);
             this.generateButton.Name = "generateButton";
             this.generateButton.Size = new System.Drawing.Size(549, 23);
@@ -361,6 +364,7 @@
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "Form1";
             this.Text = "Passificator";
             this.groupBox1.ResumeLayout(false);

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Passificator.Dto
 {
-    internal class NoteContextDTO
+    internal class NoteContextDto
     {
         public string Adressee { get; set; }
         public string AdresseePosition { get; set; }

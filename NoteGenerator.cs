@@ -8,19 +8,19 @@ namespace Passificator
 {
     class NoteGenerator
     {
-        private readonly string path = Path.GetFullPath("template.dot");
+        private readonly string _path = Path.GetFullPath("template.dot");
 
-        private readonly NoteContextDTO _context;
+        private readonly NoteContextDto _context;
 
-        public NoteGenerator(NoteContextDTO noteContextDTO)
+        public NoteGenerator(NoteContextDto noteContextDto)
         {
-            _context = noteContextDTO;
+            _context = noteContextDto;
         }
 
         public void Generate()
         {
             var wordApplication = new Application { Visible = true };
-            wordApplication.Documents.Add(path);
+            wordApplication.Documents.Add(_path);
 
             GenerateHeader(wordApplication, _context);
             GenerateAppeal(wordApplication, _context);
@@ -36,15 +36,15 @@ namespace Passificator
             GenerateSignature(wordApplication, _context);
         }
 
-        private void GenerateHeader(Application wordApplication, NoteContextDTO noteContextDTO)
+        private void GenerateHeader(Application wordApplication, NoteContextDto noteContextDto)
         {
-            FillPlaceholders(wordApplication, "{ToWhom}", PutRightEnding(noteContextDTO.AdresseePosition, "{ToWhom}") + " " + ShowInitialsAndLastName(noteContextDTO.Adressee) + "у");
-            FillPlaceholders(wordApplication, "{From}", PutRightEnding(noteContextDTO.SenderPosition, "{From}") + " " + ShowInitialsAndLastName(noteContextDTO.Sender) + "а");
+            FillPlaceholders(wordApplication, "{ToWhom}", PutRightEnding(noteContextDto.AdresseePosition, "{ToWhom}") + " " + ShowInitialsAndLastName(noteContextDto.Adressee) + "у");
+            FillPlaceholders(wordApplication, "{From}", PutRightEnding(noteContextDto.SenderPosition, "{From}") + " " + ShowInitialsAndLastName(noteContextDto.Sender) + "а");
         }
-        private string PutRightEnding(string positon, string placeholder)
+        private string PutRightEnding(string position, string placeholder)
         {
             string ending;
-            string[] splittedPosition = positon.Split(' ');
+            string[] splittedPosition = position.Split(' ');
             if (splittedPosition[0].EndsWith("ь"))
             {
                 ending = (placeholder == "{ToWhom}") ? "ю" : "я";
@@ -63,22 +63,22 @@ namespace Passificator
             return splittedName[1].First() + "." + splittedName[2].First() + ". " + splittedName[0];
         }
 
-        private void GenerateAppeal(Application wordApplication, NoteContextDTO noteContextDTO)
+        private void GenerateAppeal(Application wordApplication, NoteContextDto noteContextDto)
         {
-            string[] splittedName = noteContextDTO.Adressee.Split(' ');
+            string[] splittedName = noteContextDto.Adressee.Split(' ');
             string content = splittedName[1] + " " + splittedName[2];
             FillPlaceholders(wordApplication, "{Appeal}", content);
         }
 
-        private void GenerateReason(Application wordApplication, NoteContextDTO noteContextDTO)
+        private void GenerateReason(Application wordApplication, NoteContextDto noteContextDto)
         {
-            FillPlaceholders(wordApplication, "{Reason}", noteContextDTO.Reason);
+            FillPlaceholders(wordApplication, "{Reason}", noteContextDto.Reason);
         }
 
-        private void GenerateSignature(Application wordApplication, NoteContextDTO noteContextDTO)
+        private void GenerateSignature(Application wordApplication, NoteContextDto noteContextDto)
         {
-            FillPlaceholders(wordApplication, "{SenderPosition}", noteContextDTO.SenderPosition);
-            FillPlaceholders(wordApplication, "{SenderName}", ShowInitialsAndLastName(noteContextDTO.Sender));
+            FillPlaceholders(wordApplication, "{SenderPosition}", noteContextDto.SenderPosition);
+            FillPlaceholders(wordApplication, "{SenderName}", ShowInitialsAndLastName(noteContextDto.Sender));
         }
 
         private void FillPlaceholders(Application wordApplication, string placeholder, string content)
