@@ -1,11 +1,7 @@
 ﻿using Microsoft.Office.Interop.Word;
 using Passificator.Dto;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Passificator
 {
