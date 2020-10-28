@@ -85,10 +85,16 @@ namespace Passificator
         {
             Range range = wordApplication.ActiveDocument.Content;
             range.Find.ClearFormatting();
-            if (range.Find.Execute(FindText: placeholder))
+            try
+            {
+                range.Find.Execute(FindText: placeholder);
                 range.Text = content;
-            else
-                throw new Exception();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("There is now such placeholder in the file");
+                throw;
+            }
         }
 
         public void FillTableRow(Application wordApplication, GuestDto guestDto)
