@@ -134,7 +134,7 @@ namespace Passificator
                 AdresseePosition = addresseePositionTextBox.Text,
                 Sender = senderNameComboBox.Text,
                 SenderPosition = senderPositionTextBox.Text,
-                SeveralDaysVisit = multipleDaysVisitRadioButton.Enabled,
+                SeveralDaysVisit = multipleDaysVisitRadioButton.Checked,
                 DateOfVisit = visitDatePicker.Value,
                 DateOfVisitFrom = visitDateFromPicker.Value,
                 DateOfVisitTo = visitDateToPicker.Value,
