@@ -185,6 +185,7 @@ namespace Passificator
                 AddNewGuest(guestNameComboBox.Text);
 
             guestNameComboBox.Text = "";
+            addGuestButton.Enabled = false;
         }
 
         private void AddNewGuest(string name)
