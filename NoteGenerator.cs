@@ -60,7 +60,12 @@ namespace Passificator
         private string ShowInitialsAndLastName(string name)
         {
             string[] splittedName = name.Split(' ');
-            return splittedName[1].First() + "." + splittedName[2].First() + ". " + splittedName[0];
+            string result;
+            if (splittedName.Length == 3)
+                result = splittedName[1].First() + "." + splittedName[2].First() + ". " + splittedName[0];
+            else
+                result = name;
+            return result;
         }
 
         private void GenerateAppeal(Application wordApplication, NoteContextDto noteContextDto)
@@ -108,7 +113,11 @@ namespace Passificator
             cell = wordApplication.ActiveDocument.Tables[2].Cell(2, 2);
             cell.Range.Text = guestDto.GuestName;
             cell = wordApplication.ActiveDocument.Tables[2].Cell(2, 3);
-            cell.Range.Text = ShowInitialsAndLastName(_context.PersonAndDepartmentToVisit) + ", " + _context.SenderDepartment;
+            if (_context.PersonAndDepartmentToVisit == _context.Adressee)
+                cell.Range.Text = ShowInitialsAndLastName(_context.PersonAndDepartmentToVisit) + ", " +
+                                  _context.SenderDepartment;
+            else
+                cell.Range.Text = _context.PersonAndDepartmentToVisit;
             cell = wordApplication.ActiveDocument.Tables[2].Cell(2, 4);
             cell.Range.Text = guestDto.GuestCompany;
             cell = wordApplication.ActiveDocument.Tables[2].Cell(2, 5);
@@ -116,7 +125,10 @@ namespace Passificator
             cell = wordApplication.ActiveDocument.Tables[2].Cell(2, 6);
             cell.Range.Text = guestDto.GuestCar;
             cell = wordApplication.ActiveDocument.Tables[2].Cell(2, 7);
-            cell.Range.Text = ShowInitialsAndLastName(_context.Escort);
+            if (_context.Escort == _context.Adressee)
+                cell.Range.Text = ShowInitialsAndLastName(_context.Escort);
+            else
+                cell.Range.Text = _context.Escort;
         }
     }
 }
