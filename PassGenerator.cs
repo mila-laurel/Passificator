@@ -33,8 +33,8 @@ namespace Passificator
 
         private void CreateTable(Range table)
         {
-                table.Collapse(WdCollapseDirection.wdCollapseEnd);
-                table.Paste();
+            table.Collapse(WdCollapseDirection.wdCollapseEnd);
+            table.Paste();
         }
 
         private void GenerateGuestInformation(Application wordApplication, NoteContextDto noteContextDto, GuestDto guestDto)

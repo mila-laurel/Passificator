@@ -3,6 +3,8 @@ using System.IO;
 using System.Linq;
 using Microsoft.Office.Interop.Word;
 using Passificator.Dto;
+using Passificator.Exceptions;
+using System.Runtime.InteropServices;
 
 namespace Passificator
 {
@@ -19,27 +21,43 @@ namespace Passificator
 
         public void Generate()
         {
-            var wordApplication = new Application { Visible = true };
-            wordApplication.Documents.Add(_path);
+            Application wordApplication = null;
+            Document document = null;
 
-            GenerateHeader(wordApplication, _context);
-            GenerateAppeal(wordApplication, _context);
-            GenerateReason(wordApplication, _context);
-
-            for (int i = 0; i < _context.Guests.Count(); i++)
+            try
             {
-                if (i > 0)
-                    wordApplication.ActiveDocument.Tables[2].Rows.Add(wordApplication.ActiveDocument.Tables[2].Rows[2]);
-                FillTableRow(wordApplication, _context.Guests[i]);
-            }
+                wordApplication = new Application { Visible = true };
+                document = wordApplication.Documents.Add(_path);
 
-            GenerateSignature(wordApplication, _context);
+                GenerateHeader(document, _context);
+                GenerateAppeal(document, _context);
+                GenerateReason(document, _context);
+
+                for (int i = 0; i < _context.Guests.Count(); i++)
+                {
+                    if (i > 0)
+                        document.Tables[2].Rows
+                            .Add(document.Tables[2].Rows[2]);
+                    FillTableRow(document, _context.Guests[i]);
+                }
+
+                GenerateSignature(document, _context);
+            }
+            catch (DocumentGeneratorException)
+            {
+                wordApplication.Quit(false);
+                throw;
+            }
+            catch (COMException e)
+            {
+                throw new DocumentGeneratorException("Failed to generate document\r\nPlease try again later or contact your system administrator", e);
+            }
         }
 
-        private void GenerateHeader(Application wordApplication, NoteContextDto noteContextDto)
+        private void GenerateHeader(Document document, NoteContextDto noteContextDto)
         {
-            FillPlaceholders(wordApplication, "{ToWhom}", PutRightEnding(noteContextDto.AdresseePosition, "{ToWhom}") + " " + ShowInitialsAndLastName(noteContextDto.Adressee) + "у");
-            FillPlaceholders(wordApplication, "{From}", PutRightEnding(noteContextDto.SenderPosition, "{From}") + " " + ShowInitialsAndLastName(noteContextDto.Sender) + "а");
+            FillPlaceholders(document, "{ToWhom}", PutRightEnding(noteContextDto.AdresseePosition, "{ToWhom}") + " " + ShowInitialsAndLastName(noteContextDto.Adressee) + "у");
+            FillPlaceholders(document, "{From}", PutRightEnding(noteContextDto.SenderPosition, "{From}") + " " + ShowInitialsAndLastName(noteContextDto.Sender) + "а");
         }
         private string PutRightEnding(string position, string placeholder)
         {
@@ -68,63 +86,59 @@ namespace Passificator
             return result;
         }
 
-        private void GenerateAppeal(Application wordApplication, NoteContextDto noteContextDto)
+        private void GenerateAppeal(Document document, NoteContextDto noteContextDto)
         {
             string[] splittedName = noteContextDto.Adressee.Split(' ');
             string content = splittedName[1] + " " + splittedName[2];
-            FillPlaceholders(wordApplication, "{Appeal}", content);
+            FillPlaceholders(document, "{Appeal}", content);
         }
 
-        private void GenerateReason(Application wordApplication, NoteContextDto noteContextDto)
+        private void GenerateReason(Document document, NoteContextDto noteContextDto)
         {
-            FillPlaceholders(wordApplication, "{Reason}", noteContextDto.Reason);
+            FillPlaceholders(document, "{Reason}", noteContextDto.Reason);
         }
 
-        private void GenerateSignature(Application wordApplication, NoteContextDto noteContextDto)
+        private void GenerateSignature(Document document, NoteContextDto noteContextDto)
         {
-            FillPlaceholders(wordApplication, "{SenderPosition}", noteContextDto.SenderPosition);
-            FillPlaceholders(wordApplication, "{SenderName}", ShowInitialsAndLastName(noteContextDto.Sender));
+            FillPlaceholders(document, "{SenderPosition}", noteContextDto.SenderPosition);
+            FillPlaceholders(document, "{SenderName}", ShowInitialsAndLastName(noteContextDto.Sender));
         }
 
-        private void FillPlaceholders(Application wordApplication, string placeholder, string content)
+        private void FillPlaceholders(Document document, string placeholder, string content)
         {
-            Range range = wordApplication.ActiveDocument.Content;
+            Range range = document.Content;
             range.Find.ClearFormatting();
-            try
-            {
-                range.Find.Execute(FindText: placeholder);
-                range.Text = content;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("There is now such placeholder in the file");
-                throw;
-            }
+            bool result = range.Find.Execute(FindText: placeholder);
+
+            if (!result)
+                throw new DocumentGeneratorException($"Document template {_path} is corrupt");
+
+            range.Text = content;
         }
 
-        public void FillTableRow(Application wordApplication, GuestDto guestDto)
+        public void FillTableRow(Document document, GuestDto guestDto)
         {
 
-            Cell cell = wordApplication.ActiveDocument.Tables[2].Cell(2, 1);
+            Cell cell = document.Tables[2].Cell(2, 1);
             if (_context.SeveralDaysVisit)
                 cell.Range.Text = _context.DateOfVisitFrom.Date.ToString("d") + "-" + _context.DateOfVisitTo.Date.ToString("d") + " " + _context.TimeOfVisit;
             else
                 cell.Range.Text = _context.DateOfVisit.ToString("d") + " " + _context.TimeOfVisit; ;
-            cell = wordApplication.ActiveDocument.Tables[2].Cell(2, 2);
+            cell = document.Tables[2].Cell(2, 2);
             cell.Range.Text = guestDto.GuestName;
-            cell = wordApplication.ActiveDocument.Tables[2].Cell(2, 3);
+            cell = document.Tables[2].Cell(2, 3);
             if (_context.PersonAndDepartmentToVisit == _context.Adressee)
                 cell.Range.Text = ShowInitialsAndLastName(_context.PersonAndDepartmentToVisit) + ", " +
                                   _context.SenderDepartment;
             else
                 cell.Range.Text = _context.PersonAndDepartmentToVisit;
-            cell = wordApplication.ActiveDocument.Tables[2].Cell(2, 4);
+            cell = document.Tables[2].Cell(2, 4);
             cell.Range.Text = guestDto.GuestCompany;
-            cell = wordApplication.ActiveDocument.Tables[2].Cell(2, 5);
+            cell = document.Tables[2].Cell(2, 5);
             cell.Range.Text = guestDto.GuestDocument;
-            cell = wordApplication.ActiveDocument.Tables[2].Cell(2, 6);
+            cell = document.Tables[2].Cell(2, 6);
             cell.Range.Text = guestDto.GuestCar;
-            cell = wordApplication.ActiveDocument.Tables[2].Cell(2, 7);
+            cell = document.Tables[2].Cell(2, 7);
             if (_context.Escort == _context.Adressee)
                 cell.Range.Text = ShowInitialsAndLastName(_context.Escort);
             else

@@ -7,6 +7,7 @@ using Passificator.ViewModel;
 using Passificator.Utilities.Collections;
 using System.Linq;
 using System.Collections.Generic;
+using Passificator.Exceptions;
 
 namespace Passificator
 {
@@ -92,13 +93,20 @@ namespace Passificator
 
         private void generateButton_Click(object sender, EventArgs e)
         {
-            SaveGuestUpdates();
+            try
+            {
+                SaveGuestUpdates();
 
-            var context = GetNoteContext();
-            var noteGenerator = new NoteGenerator(context);
-            noteGenerator.Generate();
-            var passGenerator = new PassGenerator(context);
-            passGenerator.Generate();
+                var context = GetNoteContext();
+                var noteGenerator = new NoteGenerator(context);
+                noteGenerator.Generate();
+                var passGenerator = new PassGenerator(context);
+                passGenerator.Generate();
+            }
+            catch (DocumentGeneratorException exception)
+            {
+                MessageBox.Show(exception.Message, "Error");
+            }
         }
 
         private void SaveGuestUpdates()
