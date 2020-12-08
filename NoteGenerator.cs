@@ -127,7 +127,7 @@ namespace Passificator
             cell = document.Tables[2].Cell(2, 2);
             cell.Range.Text = guestDto.GuestName;
             cell = document.Tables[2].Cell(2, 3);
-            if (_context.PersonAndDepartmentToVisit == _context.Adressee)
+            if (_context.PersonAndDepartmentToVisit == _context.Sender)
                 cell.Range.Text = ShowInitialsAndLastName(_context.PersonAndDepartmentToVisit) + ", " +
                                   _context.SenderDepartment;
             else
@@ -139,7 +139,7 @@ namespace Passificator
             cell = document.Tables[2].Cell(2, 6);
             cell.Range.Text = guestDto.GuestCar;
             cell = document.Tables[2].Cell(2, 7);
-            if (_context.Escort == _context.Adressee)
+            if (_context.Escort == _context.Sender)
                 cell.Range.Text = ShowInitialsAndLastName(_context.Escort);
             else
                 cell.Range.Text = _context.Escort;
